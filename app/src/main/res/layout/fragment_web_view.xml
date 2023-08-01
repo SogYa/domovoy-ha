@@ -23,19 +23,6 @@
 
         </WebView>
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="0dp"
-            android:layout_height="190dp"
-            android:background="@color/white"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="@+id/logInWebView"
-            app:layout_constraintEnd_toEndOf="@+id/logInWebView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/logInWebView"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@mipmap/ic_launcher_foreground" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

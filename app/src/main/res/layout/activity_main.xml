@@ -55,7 +55,7 @@
             app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
             app:itemTextAppearanceActive="@style/Widget.BottomNavigationView.Firebase"
             app:itemTextAppearanceInactive="@style/Widget.BottomNavigationView.Firebase"
-            app:menu="@menu/bottom_nav_menu" />
+            app:menu="@menu/bottom_main_menu" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

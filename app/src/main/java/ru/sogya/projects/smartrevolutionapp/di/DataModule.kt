@@ -1,13 +1,11 @@
 package ru.sogya.projects.smartrevolutionapp.di
 
 import android.content.Context
-import com.sogya.data.repository.FirebaseRepositoryImpl
 import com.sogya.data.repository.LocalDataBaseRepositoryImpl
 import com.sogya.data.repository.NetworkRepositoryImpl
 import com.sogya.data.repository.NetworkStatesRepositoryImpl
 import com.sogya.data.repository.SharedPreferencesRepositoryImpl
 import com.sogya.data.repository.WebSocketRepositoryImpl
-import com.sogya.domain.repository.FirebaseRepository
 import com.sogya.domain.repository.LocalDataBaseRepository
 import com.sogya.domain.repository.NetworkRepository
 import com.sogya.domain.repository.NetworkStatesRepository
@@ -26,10 +24,6 @@ class DataModule {
     @Provides
     @Singleton
     fun provideNetworkRepository(): NetworkRepository = NetworkRepositoryImpl()
-
-    @Provides
-    @Singleton
-    fun provideFirebaseRepository(): FirebaseRepository = FirebaseRepositoryImpl()
 
     @Provides
     @Singleton
