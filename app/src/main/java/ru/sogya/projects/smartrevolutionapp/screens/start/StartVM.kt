@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StartVM @Inject constructor(
-    private val getBooleanPrefsUseCase: GetBooleanPrefsUseCase,
+    getBooleanPrefsUseCase: GetBooleanPrefsUseCase,
     private val getStringPrefsUseCase: GetStringPrefsUseCase,
     private val getAllStatesUseCase: GetStatesUseCase,
     private val checkStateExistUseCase: CheckStateExistUseCase,
@@ -34,22 +34,17 @@ class StartVM @Inject constructor(
     private val navigationLiveData = MutableLiveData<Int>()
 
     init {
-        if (isFirebaseAuth()) {
-            if (isAuth()) {
-                if (getBooleanPrefsUseCase.invoke(Constants.PREFS_IS_LOCKED)) {
-                    navigationLiveData.value = R.id.action_startFragment_to_lockFragment
-                } else {
-                    val ownerId = getStringPrefsUseCase.invoke(Constants.SERVER_URI)
-                    val token = getStringPrefsUseCase.invoke(Constants.AUTH_TOKEN)
-                    updateStatesAfterRestart(token, ownerId)
-                }
+        if (isAuth()) {
+            if (getBooleanPrefsUseCase.invoke(Constants.PREFS_IS_LOCKED)) {
+                navigationLiveData.value = R.id.action_startFragment_to_lockFragment
             } else {
-                navigationLiveData.value = R.id.action_startFragment_to_serversFragment
+                val ownerId = getStringPrefsUseCase.invoke(Constants.SERVER_URI)
+                val token = getStringPrefsUseCase.invoke(Constants.AUTH_TOKEN)
+                updateStatesAfterRestart(token, ownerId)
             }
         } else {
-            navigationLiveData.value = R.id.action_startFragment_to_firebaseAuthFragment
+            navigationLiveData.value = R.id.action_startFragment_to_serversFragment
         }
-
     }
 
     private fun updateStatesAfterRestart(token: String, ownerId: String) {
@@ -80,10 +75,6 @@ class StartVM @Inject constructor(
     }
 
     fun getNavLiveData(): LiveData<Int> = navigationLiveData
-
-    private fun isFirebaseAuth(): Boolean {
-        return getBooleanPrefsUseCase.invoke(Constants.IS_FIREBASE_AUTH)
-    }
 
     private fun isAuth(): Boolean {
         return getStringPrefsUseCase.invoke(Constants.AUTH_TOKEN).isNotEmpty()

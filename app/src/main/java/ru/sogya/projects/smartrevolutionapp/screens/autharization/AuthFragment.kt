@@ -88,9 +88,6 @@ class AuthFragment : Fragment(R.layout.fragment_web_view) {
                     super.onPageFinished(view, url)
                     binding.loadingConstraint.visibility = GONE
                     binding.webViewConstarint.visibility = VISIBLE
-                    binding.logInWebView.loadUrl(
-                        "javascript:(function() { " + "document.getElementsByTagName('div')[1].style.visibility = 'hidden';  " + "})()"
-                    )
                 }
                 override fun shouldOverrideUrlLoading(
                     view: WebView?, request: WebResourceRequest?

@@ -7,7 +7,6 @@ import android.view.View.*
 import android.window.OnBackInvokedDispatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.BuildCompat
-import androidx.core.view.size
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -26,10 +25,6 @@ class MainActivity : AppCompatActivity(), LogOutDialogFragment.DialogFragmentLis
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
     private lateinit var vm: MainVM
-    companion object{
-        private const val SERVERS_MENU = 2
-        private const val MAIN_MENU = 4
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_SmartRevolutionApp)
@@ -46,42 +41,22 @@ class MainActivity : AppCompatActivity(), LogOutDialogFragment.DialogFragmentLis
         vm = ViewModelProvider(this)[MainVM::class.java]
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.authFragment, R.id.lockFragment, R.id.firebaseAuthFragment, R.id.firebaseRegistrationFragment -> {
+                R.id.authFragment, R.id.lockFragment -> {
                     supportActionBar?.hide()
                     binding.bottomNav.visibility = GONE
                 }
 
-                R.id.firebaseAccountFragment, R.id.serversFragment -> {
-                    changeMenu(SERVERS_MENU)
+                R.id.serversFragment -> {
                     supportActionBar?.hide()
                     binding.bottomNav.visibility = VISIBLE
                 }
 
                 else -> {
-                    changeMenu(MAIN_MENU)
                     supportActionBar?.show()
                     binding.bottomNav.visibility = VISIBLE
                 }
             }
         }
-    }
-     private fun changeMenu(menu:Int){
-         binding.apply {
-            when(menu){
-                MAIN_MENU ->{
-                    if(bottomNav.menu.size != MAIN_MENU){
-                        bottomNav.menu.clear()
-                        bottomNav.inflateMenu(R.menu.bottom_main_menu)
-                    }
-                }
-                SERVERS_MENU ->{
-                    if(bottomNav.menu.size != SERVERS_MENU){
-                        bottomNav.menu.clear()
-                        bottomNav.inflateMenu(R.menu.bottom_nav_menu)
-                    }
-                }
-            }
-         }
     }
 
     private fun setupTiramisuBackPressed() {
