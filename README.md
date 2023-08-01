@@ -1,5 +1,5 @@
-# Smart Revolution
-![SM_LOGO](https://github.com/SogYa/sm-android/assets/73115406/c3ba2b56-2c82-4a5b-beb0-8f80d1b6b2e6)
+# Домовой-HA
+
 
 ## Описание
 Андроид приложение, основанное на взаимодействие с серверами домашней автоматизации Home Assistant.
@@ -17,5 +17,5 @@
 * WebSocket + Retrofit
 
 ## Дизайн 
-![SM_DESIGN](https://github.com/SogYa/sm-android/assets/73115406/c8d89b04-309c-4fb7-b2db-55823fc3a3be)
+
 Дизайн построен с использованием дизайн-системы material design 3
