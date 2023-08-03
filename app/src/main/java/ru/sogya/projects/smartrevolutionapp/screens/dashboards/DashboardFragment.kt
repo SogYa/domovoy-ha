@@ -37,11 +37,11 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val bundle = Bundle()
-        val groupId = arguments?.getInt(Constants.GROUP_ID)
-        bundle.putInt(Constants.GROUP_ID, groupId!!)
-        vm.getGroupStates(groupId)
-
+        arguments?.takeIf { it.containsKey(Constants.GROUP_ID) }?.apply {
+            val groupId = getInt(Constants.GROUP_ID)
+            vm.getGroupStates(groupId)
+//            bundle.putInt(Constants.GROUP_ID, groupId!!)
+        }
         binding.statesRecyclerView.layoutManager = LinearLayoutManager(context)
         adapter = DashboardAdapter(this)
         binding.statesRecyclerView.adapter = adapter
@@ -67,15 +67,16 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard),
         arguments.putString(STATE_ID, stateDomain.entityId)
         if (stateDomain.entityId.startsWith("sensor")) {
             dialogFragment = SensorFragment()
-            showDialog(dialogFragment,arguments)
+            showDialog(dialogFragment, arguments)
 
         } else if (stateDomain.entityId.startsWith("media_player")) {
             dialogFragment = MediaPlayerFragment()
-            showDialog(dialogFragment,arguments)
+            showDialog(dialogFragment, arguments)
         }
 
     }
-    private fun showDialog(dialogFragment: BottomSheetDialogFragment,argument:Bundle){
+
+    private fun showDialog(dialogFragment: BottomSheetDialogFragment, argument: Bundle) {
         dialogFragment.arguments = argument
         dialogFragment.show(childFragmentManager, dialogFragment.tag)
     }

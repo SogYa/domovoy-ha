@@ -43,4 +43,5 @@
     <string name="dialog_network_header">Связь потеряна!</string>
     <string name="dialog_network_text">Для работы приложения требуется стабильное подключение к Интернету. Пожалуйста, подключитесь к Интернету, и это диалоговое окно автоматически закроется.</string>
     <string name="dialog_cancel">Отмена</string>
+    <string name="add_group_fab_desc">Добавить группу или устройство</string>
 </resources>

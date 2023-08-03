@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/groupFragment"
-        android:name="ru.sogya.projects.smartrevolutionapp.screens.home.group.GroupFragment"
+        android:name="ru.sogya.projects.smartrevolutionapp.screens.group.GroupFragment"
         android:label="Dashboard">
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment2"
