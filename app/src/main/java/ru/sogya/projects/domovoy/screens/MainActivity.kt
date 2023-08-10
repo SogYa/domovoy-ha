@@ -41,14 +41,9 @@ class MainActivity : AppCompatActivity(), LogOutDialogFragment.DialogFragmentLis
         vm = ViewModelProvider(this)[MainVM::class.java]
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.authFragment, R.id.lockFragment -> {
+                R.id.authFragment, R.id.lockFragment,R.id.serversFragment -> {
                     supportActionBar?.hide()
                     binding.bottomNav.visibility = GONE
-                }
-
-                R.id.serversFragment -> {
-                    supportActionBar?.hide()
-                    binding.bottomNav.visibility = VISIBLE
                 }
 
                 else -> {
