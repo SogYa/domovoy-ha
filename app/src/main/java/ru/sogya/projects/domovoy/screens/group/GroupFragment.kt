@@ -16,7 +16,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sogya.projects.domovoy.R
 import ru.sogya.projects.domovoy.databinding.FragmentGroupBinding
-import ru.sogya.projects.domovoy.screens.home.bottomsheet.group.GroupBottomSheetFragment
+import ru.sogya.projects.domovoy.dialogs.group.GroupBottomSheetFragment
 
 @AndroidEntryPoint
 class GroupFragment : Fragment(R.layout.fragment_dashboard){

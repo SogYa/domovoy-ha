@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), LogOutDialogFragment.DialogFragmentLis
     private lateinit var vm: MainVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_SmartRevolutionApp)
+        setTheme(R.style.Theme_DomovoyHA)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
