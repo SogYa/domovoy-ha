@@ -13,14 +13,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.tabs.TabLayoutMediator
-import com.sogya.domain.models.StateGroupDomain
-import com.sogya.domain.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sogya.projects.smartrevolutionapp.R
 import ru.sogya.projects.smartrevolutionapp.databinding.FragmentGroupBinding
+import ru.sogya.projects.smartrevolutionapp.screens.home.bottomsheet.group.GroupBottomSheetFragment
 
 @AndroidEntryPoint
-class GroupFragment : Fragment(R.layout.fragment_dashboard), GroupAdapter.OnGroupClickListener {
+class GroupFragment : Fragment(R.layout.fragment_dashboard){
     private lateinit var binding: FragmentGroupBinding
     private val vm: GroupVM by viewModels()
     private lateinit var adapter: GroupViewPagerAdapter
@@ -37,25 +36,38 @@ class GroupFragment : Fragment(R.layout.fragment_dashboard), GroupAdapter.OnGrou
         binding.apply {
             addFab.shrink()
             addFab.setOnClickListener {
-//                GroupBottomSheetFragment()
-//                    .show(childFragmentManager, GroupBottomSheetFragment().tag)
                 if (!addFab.isExtended) {
-                    addGroupFab.show()
-                    addStateFab.show()
-                    addFab.extend()
-                    setLayoutParams(addGroupFab, true)
-                    setLayoutParams(addStateFab, true)
+                    changeFabVisible(true)
                 } else {
-                    addGroupFab.hide()
-                    addStateFab.hide()
-                    addFab.shrink()
-                    setLayoutParams(addGroupFab, false)
-                    setLayoutParams(addStateFab, false)
+                    changeFabVisible(false)
 
                 }
             }
+            addGroupFab.setOnClickListener {
+                GroupBottomSheetFragment()
+                    .show(childFragmentManager, GroupBottomSheetFragment().tag)
+            }
+            addStateFab.setOnClickListener {
+                findNavController().navigate(R.id.action_groupFragment_to_stateAddingFragment)
+            }
             adapter = GroupViewPagerAdapter(this@GroupFragment)
             groupViewPager.adapter = adapter
+        }
+    }
+
+    private fun changeFabVisible(visibilityState: Boolean) {
+        binding.apply {
+            if (visibilityState) {
+                addGroupFab.show()
+                addStateFab.show()
+                addFab.extend()
+            } else {
+                addGroupFab.hide()
+                addStateFab.hide()
+                addFab.shrink()
+            }
+            setLayoutParams(addGroupFab, visibilityState)
+            setLayoutParams(addStateFab, visibilityState)
         }
     }
 
@@ -110,19 +122,5 @@ class GroupFragment : Fragment(R.layout.fragment_dashboard), GroupAdapter.OnGrou
                 Log.d("LiveDataGroup", it.toString())
             }
         }
-    }
-
-    override fun onClick(stateGroupDomain: StateGroupDomain) {
-        val bundle = Bundle()
-        bundle.putInt(Constants.GROUP_ID, stateGroupDomain.groupId)
-        Log.d("GroupId", stateGroupDomain.groupId.toString())
-        findNavController().navigate(
-            R.id.action_homeFragment_to_dashboardFragment,
-            bundle
-        )
-    }
-
-    override fun onLongClick(stateGroupDomain: StateGroupDomain) {
-        TODO("Not yet implemented")
     }
 }
