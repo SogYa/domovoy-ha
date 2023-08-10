@@ -1,7 +1,6 @@
 package ru.sogya.projects.domovoy.screens.group
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +15,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sogya.projects.domovoy.R
 import ru.sogya.projects.domovoy.databinding.FragmentGroupBinding
-import ru.sogya.projects.domovoy.dialogs.group.GroupBottomSheetFragment
 
 @AndroidEntryPoint
-class GroupFragment : Fragment(R.layout.fragment_dashboard){
+class GroupFragment : Fragment(R.layout.fragment_dashboard) {
     private lateinit var binding: FragmentGroupBinding
     private val vm: GroupVM by viewModels()
     private lateinit var adapter: GroupViewPagerAdapter
@@ -44,8 +42,7 @@ class GroupFragment : Fragment(R.layout.fragment_dashboard){
                 }
             }
             addGroupFab.setOnClickListener {
-                GroupBottomSheetFragment()
-                    .show(childFragmentManager, GroupBottomSheetFragment().tag)
+                findNavController().navigate(R.id.action_groupFragment_to_groupControllFragment)
             }
             addStateFab.setOnClickListener {
                 findNavController().navigate(R.id.action_groupFragment_to_stateAddingFragment)
@@ -119,7 +116,6 @@ class GroupFragment : Fragment(R.layout.fragment_dashboard){
                         tab.text = group.groupTag
                     }
                 }.attach()
-                Log.d("LiveDataGroup", it.toString())
             }
         }
     }
