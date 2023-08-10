@@ -12,8 +12,8 @@
             android:id="@+id/action_homeFragment_to_settingsFragment2"
             app:destination="@id/settingsFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment" />
+            android:id="@+id/action_groupFragment_to_stateAddingFragment"
+            app:destination="@id/stateAddingFragment" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
@@ -90,11 +90,7 @@
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="ru.sogya.projects.smartrevolutionapp.screens.dashboards.DashboardFragment"
-        android:label="DashboardFragment" >
-        <action
-            android:id="@+id/action_dashboardFragment_to_homeFragment"
-            app:destination="@id/groupFragment" />
-    </fragment>
+        android:label="DashboardFragment" />
     <fragment
         android:id="@+id/mapFragment"
         android:name="ru.sogya.projects.smartrevolutionapp.screens.map.MapFragment"
