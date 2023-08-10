@@ -1,4 +1,4 @@
-package ru.sogya.projects.domovoy.screens.home.bottomsheet.group
+package ru.sogya.projects.domovoy.dialogs.group
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

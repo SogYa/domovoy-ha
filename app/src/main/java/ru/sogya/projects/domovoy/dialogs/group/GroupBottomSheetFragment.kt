@@ -1,25 +1,25 @@
-package ru.sogya.projects.domovoy.screens.home.bottomsheet.group
+package ru.sogya.projects.domovoy.dialogs.group
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sogya.domain.utils.MyCallBack
 import dagger.hilt.android.AndroidEntryPoint
-import ru.sogya.projects.domovoy.databinding.GroupBottomSheetBinding
+import ru.sogya.projects.domovoy.databinding.DialogAddGroupBinding
 
 @AndroidEntryPoint
-class GroupBottomSheetFragment : BottomSheetDialogFragment() {
-    private lateinit var binding: GroupBottomSheetBinding
+class GroupBottomSheetFragment : DialogFragment() {
+    private lateinit var binding: DialogAddGroupBinding
     private val vm: GroupDialogVM by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = GroupBottomSheetBinding.inflate(inflater, container, false)
+        binding = DialogAddGroupBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -29,9 +29,9 @@ class GroupBottomSheetFragment : BottomSheetDialogFragment() {
             val groupTag = binding.groupTag.text.toString()
             val groupDesc = binding.groupDesc.text.toString()
             if (groupTag.isNotEmpty()) {
-                vm.createNewGroup(groupTag, groupDesc,object : MyCallBack<Boolean> {
+                vm.createNewGroup(groupTag, groupDesc, object : MyCallBack<Boolean> {
                     override fun data(t: Boolean) {
-                        Toast.makeText(context,"Group added", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Group added", Toast.LENGTH_SHORT).show()
                     }
 
                     override fun error() {}
