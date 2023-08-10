@@ -6,7 +6,6 @@
     android:id="@+id/groupBottomSheet"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bottom_sheet_background"
     android:orientation="vertical">
 
     <TextView
@@ -31,17 +30,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/floatingActionButton"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
-        android:text="Добавить"
         android:textColor="@color/font_black"
         app:backgroundTint="@color/white"
-        app:icon="@drawable/add_icon"
-        app:iconTint="@color/font_black"
+        android:src="@drawable/add_icon"
+        app:tint="@color/font_black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
