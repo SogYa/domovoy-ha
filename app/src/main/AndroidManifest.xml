@@ -9,7 +9,7 @@
 
 
     <application
-        android:name=".app.App"
+        android:name="ru.sogya.projects.domovoy.app.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -22,7 +22,7 @@
         tools:targetApi="TIRAMISU">
 
         <activity
-            android:name=".screens.MainActivity"
+            android:name="ru.sogya.projects.domovoy.screens.MainActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:theme="@style/Theme.SplashScreen"
@@ -38,22 +38,5 @@
 
             </intent-filter>
         </activity>
-        <service
-            android:name=".services.FirebaseCloudMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
-        <receiver android:name=".receivers.FirebaseReceiver" />
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            tools:node="remove">
-        </provider>
     </application>
 </manifest>

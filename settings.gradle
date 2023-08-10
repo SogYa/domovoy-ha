@@ -13,7 +13,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "SmartRevolutionApp"
+rootProject.name = "DomovoyHA"
 include ':app'
 include ':domain'
 include ':data'
