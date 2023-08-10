@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.DomovoyHA" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#F48FB1</item>
+        <item name="colorPrimary">@color/main_blue</item>
         <item name="colorPrimaryVariant">#C2185B</item>
         <item name="colorOnPrimary">@color/font_black</item>
         <!-- Secondary brand color. -->
