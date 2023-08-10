@@ -10,7 +10,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "ru.sogya.projects.smartrevolutionapp"
+        applicationId "ru.sogya.projects.domovoy"
         minSdk 28
         targetSdk 33
         versionCode 1
@@ -36,7 +36,7 @@ android {
         viewBinding = true
     }
 
-    namespace 'ru.sogya.projects.smartrevolutionapp'
+    namespace 'ru.sogya.projects.domovoy'
 }
 kapt {
     correctErrorTypes true

@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import dagger.hilt.android.AndroidEntryPoint
+import ru.sogya.projects.domovoy.R
 import ru.sogya.projects.domovoy.databinding.ActivityMainBinding
 import ru.sogya.projects.domovoy.dialogs.LogOutDialogFragment
 import ru.sogya.projects.domovoy.dialogs.networkconnection.NetworkConnectionDialog

@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "560653065953",
-    "project_id": "smart-revolution-android",
-    "storage_bucket": "smart-revolution-android.appspot.com"
+    "project_number": "866299763978",
+    "project_id": "domovoy-ha",
+    "storage_bucket": "domovoy-ha.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:560653065953:android:ff3d05e9391008b59da1a0",
+        "mobilesdk_app_id": "1:866299763978:android:1a4f21f4fc49db8a25aef3",
         "android_client_info": {
-          "package_name": "ru.sogya.projects.smartrevolutionapp"
+          "package_name": "ru.sogya.projects.domovoy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "560653065953-g4gkememphluqg620l1oh2ml3j0hco5f.apps.googleusercontent.com",
+          "client_id": "866299763978-fdiuvnin3ifsf0dkcd8ilfjh55bu567v.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBb5miXowPkmPsXivumWKAO_gBqlLUyZ34"
+          "current_key": "AIzaSyAuQbL7TJlG43Xn3XFk9_GV6kcHW7C7WWo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "560653065953-g4gkememphluqg620l1oh2ml3j0hco5f.apps.googleusercontent.com",
+              "client_id": "866299763978-fdiuvnin3ifsf0dkcd8ilfjh55bu567v.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
