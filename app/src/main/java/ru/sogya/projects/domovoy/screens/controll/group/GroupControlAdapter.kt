@@ -5,13 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.sogya.domain.utils.Constants
 import com.sogya.domain.models.StateGroupDomain
 import ru.sogya.projects.domovoy.R
 
-class GroupControllAdapter(
-    private val onGroupClickListener: OnGroupClickListener,
-) : RecyclerView.Adapter<GroupControllAdapter.ViewHolder>() {
+class GroupControlAdapter(
+) : RecyclerView.Adapter<GroupControlAdapter.ViewHolder>() {
     private var groups = ArrayList<StateGroupDomain>()
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -37,28 +35,18 @@ class GroupControllAdapter(
         } else {
             holder.groupDesc.text = holder.itemView.context.getString(R.string.group_empty_desc)
         }
-        holder.itemView.setOnClickListener {
-            onGroupClickListener.onClick(group)
-        }
+
         holder.itemView.setOnLongClickListener {
-            onGroupClickListener.onLongClick(group)
+            //onGroupClickListener.onLongClick(group)
             return@setOnLongClickListener true
         }
 
     }
 
-    fun updateGroupsList(groupsList: List<StateGroupDomain>) {
+    fun updateGroupList(groupsList: List<StateGroupDomain>) {
         groups.clear()
         notifyItemChanged(1)
-        groups.add(
-            StateGroupDomain(
-                Constants.DEFAULT_GROUP_ID,
-                "All states", "All states",
-                "A shared dashboard with all the states added to the app"
-            )
-        )
         groups.addAll(groupsList)
-
         notifyItemRangeChanged(0, groups.size)
     }
 
