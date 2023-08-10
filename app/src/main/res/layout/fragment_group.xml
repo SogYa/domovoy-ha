@@ -7,12 +7,15 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/groupAppBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/groupTabLayout"
+            style="@style/Widget.Material3.TabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/main_light_gray"
             app:tabGravity="fill"
             app:tabMode="scrollable" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -28,13 +31,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:backgroundTint="@color/white"
-        android:text = "Добавить"
         android:layout_margin="@dimen/fab_margin"
-        app:icon="@drawable/add_icon"
-        app:iconTint="@color/black"
+        android:backgroundTint="@color/white"
         android:contentDescription="@string/add_group_fab_desc"
-        android:textColor="@color/black" />
+        android:text="Добавить"
+        android:textColor="@color/black"
+        app:icon="@drawable/add_icon"
+        app:iconTint="@color/black" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/addGroupFab"
@@ -45,10 +48,10 @@
         android:contentDescription="@string/add_group_fab_desc"
         android:src="@android:drawable/ic_menu_compass"
         android:text="Группу"
+        android:textColor="@color/black"
         android:visibility="invisible"
         app:backgroundTint="@color/white"
-        app:fabSize="mini"
-        android:textColor="@color/black" />
+        app:fabSize="mini" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/addStateFab"
@@ -58,10 +61,10 @@
         android:layout_margin="@dimen/fab_margin"
         android:contentDescription="@string/add_group_fab_desc"
         android:src="@android:drawable/ic_menu_myplaces"
+        android:text="Устройство"
+        android:textColor="@color/black"
         android:visibility="invisible"
         app:backgroundTint="@color/white"
-        app:fabSize="mini"
-        android:text="Устройство"
-        android:textColor="@color/black" />
+        app:fabSize="mini" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
