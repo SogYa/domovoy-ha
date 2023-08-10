@@ -1,4 +1,4 @@
-package ru.sogya.projects.domovoy.screens.group
+package ru.sogya.projects.domovoy.screens.controll.group
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +9,9 @@ import com.sogya.domain.utils.Constants
 import com.sogya.domain.models.StateGroupDomain
 import ru.sogya.projects.domovoy.R
 
-class GroupAdapter(
+class GroupControllAdapter(
     private val onGroupClickListener: OnGroupClickListener,
-) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<GroupControllAdapter.ViewHolder>() {
     private var groups = ArrayList<StateGroupDomain>()
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
