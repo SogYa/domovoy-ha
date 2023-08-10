@@ -14,6 +14,10 @@
         <action
             android:id="@+id/action_groupFragment_to_stateAddingFragment"
             app:destination="@id/stateAddingFragment" />
+        <action
+            android:id="@+id/action_groupFragment_to_groupControllFragment"
+            app:destination="@id/groupControllFragment"
+            app:enterAnim="@anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
@@ -107,4 +111,8 @@
         android:id="@+id/stateAddingFragment"
         android:name="ru.sogya.projects.domovoy.screens.home.bottomsheet.stateadding.StateAddingFragment"
         android:label="StateAddingFragment" />
+    <fragment
+        android:id="@+id/groupControllFragment"
+        android:name="ru.sogya.projects.domovoy.screens.controll.group.GroupControlFragment"
+        android:label="GroupControllFragment" />
 </navigation>
