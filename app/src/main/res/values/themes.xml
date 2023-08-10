@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.SmartRevolutionApp" parent="Theme.Material3.Dark.NoActionBar">
+    <style name="Theme.DomovoyHA" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#F48FB1</item>
         <item name="colorPrimaryVariant">#C2185B</item>
@@ -35,19 +35,19 @@
         <item name="android:background">@drawable/bottom_sheet_background</item>
     </style>
 
-    <style name="Theme.SplashScreen" parent="Theme.SmartRevolutionApp">
+    <style name="Theme.SplashScreen" parent="Theme.DomovoyHA">
         <item name="android:windowBackground">
             @drawable/splash_screen
         </item>
         <item name="colorPrimaryDark">@android:color/white</item>
     </style>
 
-    <style name="Theme.SmartRevolutionApp.NoActionBar">
+    <style name="Theme.DomovoyHA.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.SmartRevolutionApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.DomovoyHA.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.SmartRevolutionApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.DomovoyHA.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
