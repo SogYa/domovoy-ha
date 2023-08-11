@@ -43,9 +43,11 @@ class GroupFragment : Fragment(R.layout.fragment_dashboard) {
             }
             addGroupFab.setOnClickListener {
                 findNavController().navigate(R.id.action_groupFragment_to_groupControllFragment)
+                loadingView.visibility = View.VISIBLE
             }
             addStateFab.setOnClickListener {
                 findNavController().navigate(R.id.action_groupFragment_to_stateAddingFragment)
+                loadingView.visibility = View.VISIBLE
             }
             adapter = GroupViewPagerAdapter(this@GroupFragment)
             groupViewPager.adapter = adapter
@@ -105,8 +107,8 @@ class GroupFragment : Fragment(R.layout.fragment_dashboard) {
         fab.isClickable = show
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         vm.getGroupsLiveData().observe(viewLifecycleOwner) {
             binding.apply {
                 adapter.updateGroupList(it)
@@ -116,6 +118,7 @@ class GroupFragment : Fragment(R.layout.fragment_dashboard) {
                         tab.text = group.groupTag
                     }
                 }.attach()
+                loadingView.visibility = View.GONE
             }
         }
     }
