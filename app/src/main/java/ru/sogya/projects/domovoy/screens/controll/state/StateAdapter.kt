@@ -1,9 +1,9 @@
-package ru.sogya.projects.domovoy.screens.home.bottomsheet.stateadding
+package ru.sogya.projects.domovoy.screens.controll.state
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sogya.domain.models.StateDomain
@@ -16,7 +16,8 @@ class StateAdapter : RecyclerView.Adapter<StateAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.textFriendlyName)
         val idTextView: TextView = itemView.findViewById(R.id.textId)
-        val stateCountTextView:TextView = itemView.findViewById(R.id.textStateCount)
+        val stateCountTextView: TextView = itemView.findViewById(R.id.textStateCount)
+        val stateSelectedIcon: ImageView = itemView.findViewById(R.id.imageViewSelected)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,14 +32,22 @@ class StateAdapter : RecyclerView.Adapter<StateAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val stateDomain: StateDomain = states[position]
-        if (checkedSet.contains(stateDomain)){
-            holder.nameTextView.setTextColor(Color.parseColor("FF312EE9"))
+        if (checkedSet.contains(stateDomain)) {
+            holder.stateSelectedIcon.visibility = View.VISIBLE
+        } else {
+            holder.stateSelectedIcon.visibility = View.GONE
         }
         holder.nameTextView.text = stateDomain.attributes!!.friendlyName
         holder.idTextView.text = stateDomain.entityId
-        holder.stateCountTextView.text = (position+1).toString()
-        holder.itemView.setOnLongClickListener {
-            checkedSet.add(stateDomain)
+        holder.stateCountTextView.text = position.toString()
+        holder.itemView.setOnClickListener {
+            if (checkedSet.contains(stateDomain)) {
+                holder.stateSelectedIcon.visibility = View.GONE
+                checkedSet.remove(stateDomain)
+            } else {
+                holder.stateSelectedIcon.visibility = View.VISIBLE
+                checkedSet.add(stateDomain)
+            }
         }
     }
 
