@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity(), LogOutDialogFragment.DialogFragmentLis
                     supportActionBar?.hide()
                     binding.bottomNav.visibility = GONE
                 }
+                R.id.stateAddingFragment->
+                    supportActionBar?.hide()
 
                 else -> {
                     supportActionBar?.show()
