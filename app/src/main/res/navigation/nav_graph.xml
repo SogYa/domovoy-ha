@@ -109,7 +109,7 @@
         android:label="AboutFragment" />
     <fragment
         android:id="@+id/stateAddingFragment"
-        android:name="ru.sogya.projects.domovoy.screens.home.bottomsheet.stateadding.StateAddingFragment"
+        android:name="ru.sogya.projects.domovoy.screens.controll.state.StateAddingFragment"
         android:label="StateAddingFragment" />
     <fragment
         android:id="@+id/groupControllFragment"
