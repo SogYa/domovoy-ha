@@ -77,25 +77,15 @@ class EventWorker @AssistedInject constructor(
             //val webHookId = getStringPrefsUseCase.invoke(Constants.INTEGRATION_WEB_HOOK)
             sendMessageUseCase.invoke(EventSubscribe(count))
             //sendMessageUseCase.invoke(NotificationSubscribe(notifyCount, webHookId = webHookId))
-        } else if (result.get("type") == "result") {
-            if (result.get("success").toString() == "false") {
-                Log.d("Error", result.get("error").toString())
-            }
-            Log.d("EventSubscription", result.get("success").toString())
         } else if (result.get("type") == "event") {
-            if (!result.getJSONObject("event").isNull("message")) {
-                Log.d("Notify", result.toString())
-            } else {
+            if (result.getJSONObject("event").isNull("message")) {
                 val newStateJson =
                     result.getJSONObject("event").getJSONObject("data").getJSONObject("new_state")
                         .toString()
                 val mJson = JsonParser.parseString(newStateJson)
 
                 val newStateDataData = Gson().fromJson(mJson, StateData::class.java)
-                Log.d(
-                    "NewState",
-                    "${newStateDataData.entityId} changed with state${newStateDataData.state}"
-                )
+
                 if (checkStateExistUSeCase.invoke(newStateDataData.entityId)) {
                     val oldState = getStateById.invoke(newStateDataData.entityId)
 

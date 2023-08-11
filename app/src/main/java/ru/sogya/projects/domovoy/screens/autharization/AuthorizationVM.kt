@@ -60,7 +60,7 @@ class AuthorizationVM @Inject constructor(
                     Log.d("TOKEN_ERROR", it.message.toString())
                     myCallBack.error()
                 }
-                .collect() {
+                .collect {
                     Log.d("TOKEN", it.access_token)
                     updatePrefsUseCase.invoke(Constants.SERVER_URI, baseUri)
                     updatePrefsUseCase.invoke(Constants.SERVER_NAME, serverName)
