@@ -6,6 +6,7 @@ import com.sogya.domain.models.ServerStateDomain
 import com.sogya.domain.models.StateDomain
 import com.sogya.domain.models.StateGroupDomain
 import com.sogya.domain.models.ZoneDomain
+import kotlinx.coroutines.flow.Flow
 
 interface LocalDataBaseRepository {
 
@@ -27,7 +28,7 @@ interface LocalDataBaseRepository {
 
     fun updateStates(stateList: List<StateDomain>)
 
-    fun getAllGroupsByOwner(ownerId: String): LiveData<List<StateGroupDomain>>
+    suspend fun getAllGroupsByOwner(ownerId: String): Flow<List<StateGroupDomain>>
 
     fun insertGroup(stateGroupDomain: StateGroupDomain)
 

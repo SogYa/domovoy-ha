@@ -20,6 +20,8 @@ import com.sogya.domain.models.StateDomain
 import com.sogya.domain.models.StateGroupDomain
 import com.sogya.domain.models.ZoneDomain
 import com.sogya.domain.repository.LocalDataBaseRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class LocalDataBaseRepositoryImpl(context: Context) : LocalDataBaseRepository {
     private val db = Room.databaseBuilder(
@@ -70,7 +72,7 @@ class LocalDataBaseRepositoryImpl(context: Context) : LocalDataBaseRepository {
         db.stateDao().updateStates(ListOfStatesDomainMapper(stateList).toDataList())
     }
 
-    override fun getAllGroupsByOwner(ownerId: String): LiveData<List<StateGroupDomain>> {
+    override suspend fun getAllGroupsByOwner(ownerId: String): Flow<List<StateGroupDomain>> {
         return db.groupDao().getAllByOwner(ownerId).map {
             ListOfGroupDataMapper(it).toDomainList()
         }
