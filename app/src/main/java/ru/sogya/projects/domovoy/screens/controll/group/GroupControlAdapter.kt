@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sogya.domain.models.StateGroupDomain
 import ru.sogya.projects.domovoy.R
 
-class GroupControlAdapter(
-) : RecyclerView.Adapter<GroupControlAdapter.ViewHolder>() {
+class GroupControlAdapter: RecyclerView.Adapter<GroupControlAdapter.ViewHolder>() {
     private var groups = ArrayList<StateGroupDomain>()
+    private var onGroupClickListener: OnGroupClickListener? = null
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val groupLabel: TextView = itemView.findViewById(R.id.group_label)
@@ -32,12 +32,9 @@ class GroupControlAdapter(
         val groupDesc = group.groupDesc
         if (groupDesc != "") {
             holder.groupDesc.text = groupDesc
-        } else {
-            holder.groupDesc.text = holder.itemView.context.getString(R.string.group_empty_desc)
         }
-
         holder.itemView.setOnLongClickListener {
-            //onGroupClickListener.onLongClick(group)
+            onGroupClickListener?.onLongClick(group)
             return@setOnLongClickListener true
         }
 
@@ -55,7 +52,9 @@ class GroupControlAdapter(
     }
 
     interface OnGroupClickListener {
-        fun onClick(stateGroupDomain: StateGroupDomain)
         fun onLongClick(stateGroupDomain: StateGroupDomain)
+    }
+    fun setOnClickListener(onClickListener: OnGroupClickListener) {
+        this.onGroupClickListener = onClickListener
     }
 }

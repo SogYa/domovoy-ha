@@ -10,20 +10,30 @@ import com.sogya.domain.usecases.databaseusecase.groups.GetAllGroupByOwnerUseCas
 import com.sogya.domain.usecases.sharedpreferences.GetStringPrefsUseCase
 import com.sogya.domain.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class GroupControlVM @Inject constructor(
-    getStringPrefsUseCase: GetStringPrefsUseCase,
-    getAllGroupByOwnerUseCase: GetAllGroupByOwnerUseCase,
-    private val deleteGroupUseCase: DeleteGroupUseCase,
+    private val getStringPrefsUseCase: GetStringPrefsUseCase,
+    private val getAllGroupByOwnerUseCase: GetAllGroupByOwnerUseCase,
+    private val deleteGroupUseCase: DeleteGroupUseCase
 ) : ViewModel() {
-    private var groupsLiveData: LiveData<List<StateGroupDomain>> = MutableLiveData()
+    private var groupsLiveData: MutableLiveData<List<StateGroupDomain>> = MutableLiveData()
 
     init {
-        val ownerId = getStringPrefsUseCase.invoke(Constants.SERVER_URI)
-        groupsLiveData = getAllGroupByOwnerUseCase.invoke(ownerId)
+        getAlGroupsByOwner()
+    }
+
+    private fun getAlGroupsByOwner() {
+        viewModelScope.launch {
+            val ownerId = getStringPrefsUseCase.invoke(Constants.SERVER_URI)
+            getAllGroupByOwnerUseCase(ownerId = ownerId).flowOn(Dispatchers.IO).collect {
+                groupsLiveData.postValue(it)
+            }
+        }
     }
 
     fun deleteGroup(groupId: Int) {
