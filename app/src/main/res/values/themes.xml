@@ -14,6 +14,10 @@
         <!-- Customize your theme here. -->
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
         <item name="android:windowBackground">@color/main_light_gray</item>
+        <item name="colorSurface">@color/main_light_gray</item>
+        <item name="colorOnSurface">@color/font_black</item>
+        <item name="colorOnSurfaceVariant">@color/font_black</item>
+        <item name="colorSurfaceVariant">@color/font_black</item>
     </style>
 
 
