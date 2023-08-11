@@ -1,19 +1,18 @@
-package ru.sogya.projects.domovoy.screens.home.bottomsheet.stateadding
+package ru.sogya.projects.domovoy.screens.controll.state
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sogya.domain.models.StateDomain
-import com.sogya.domain.utils.MyCallBack
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sogya.projects.domovoy.R
 import ru.sogya.projects.domovoy.databinding.FragmentAddStateBinding
+import ru.sogya.projects.domovoy.dialogs.state.AddStateDialogFragment
 
 @AndroidEntryPoint
 class StateAddingFragment : Fragment(R.layout.fragment_add_state) {
@@ -42,21 +41,19 @@ class StateAddingFragment : Fragment(R.layout.fragment_add_state) {
         vm.getLoadingLiveData().observe(viewLifecycleOwner) {
             binding.loadingView.visibility = it
         }
-        binding.addFub2.setOnClickListener {
-            val checkedSet = adapter.sendCheckedSet()
-            if (checkedSet.isEmpty()) {
-                Toast.makeText(context, "Nothing to add(", Toast.LENGTH_SHORT).show()
-            } else {
-                vm.addStatesToDataBase(checkedSet, 0, object : MyCallBack<Boolean> {
-                    override fun data(t: Boolean) {
-                        Toast.makeText(context, "State added", Toast.LENGTH_SHORT).show()
-                    }
 
-                    override fun error() {
-                        super.error()
-                        Toast.makeText(context, "Nothing to add(", Toast.LENGTH_SHORT).show()
-                    }
-                })
+        binding.addFub2.setOnClickListener {
+            if(adapter.sendCheckedSet().isNotEmpty()) {
+                val dialog = AddStateDialogFragment(sendHashSetToDialog())
+                dialog.show(parentFragmentManager, dialog.tag)
+            }
+        }
+    }
+
+    private fun sendHashSetToDialog(): AddStateDialogFragment.DialogFragmentListener {
+        return object : AddStateDialogFragment.DialogFragmentListener {
+            override fun getStateHasSet(): HashSet<StateDomain> {
+                return adapter.sendCheckedSet()
             }
         }
     }
