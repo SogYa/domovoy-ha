@@ -9,11 +9,11 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sogya.domain.models.StateDomain
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sogya.projects.domovoy.R
 import ru.sogya.projects.domovoy.databinding.FragmentAddStateBinding
 import ru.sogya.projects.domovoy.dialogs.state.AddStateDialogFragment
+import ru.sogya.projects.domovoy.models.StatePresenation
 
 @AndroidEntryPoint
 class StateAddingFragment : Fragment(R.layout.fragment_add_state) {
@@ -50,7 +50,7 @@ class StateAddingFragment : Fragment(R.layout.fragment_add_state) {
 
     private fun sendHashSetToDialog(): AddStateDialogFragment.DialogFragmentListener {
         return object : AddStateDialogFragment.DialogFragmentListener {
-            override fun getStateHasSet(): HashSet<StateDomain> {
+            override fun getStateHasSet(): HashSet<StatePresenation> {
                 return adapter.sendCheckedSet()
             }
         }

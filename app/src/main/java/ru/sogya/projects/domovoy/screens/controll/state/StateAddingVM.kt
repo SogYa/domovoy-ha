@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sogya.domain.models.StateDomain
 import com.sogya.domain.usecases.network.GetStatesUseCase
 import com.sogya.domain.usecases.sharedpreferences.GetStringPrefsUseCase
 import com.sogya.domain.utils.Constants
@@ -14,6 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import ru.sogya.projects.domovoy.models.StatePresenation
+import ru.sogya.projects.domovoy.models.mappers.StateMapper
 import ru.sogya.projects.domovoy.utils.VisibilityStates
 import javax.inject.Inject
 
@@ -22,7 +23,7 @@ class StateAddingVM @Inject constructor(
     getStatesUseCase: GetStatesUseCase,
     getStringPrefsUseCase: GetStringPrefsUseCase,
 ) : ViewModel() {
-    private val statesLiveData = MutableLiveData<List<StateDomain>>()
+    private val statesLiveData = MutableLiveData<List<StatePresenation>>()
     private val loadingViewLiveData = MutableLiveData<Int>()
 
 
@@ -33,13 +34,15 @@ class StateAddingVM @Inject constructor(
             getStatesUseCase.invoke(url, token).flowOn(Dispatchers.IO)
                 .catch {
                     Log.d("StatesError", it.message.toString())
-                }.collect {
-                    statesLiveData.postValue(it)
+                }.collect { stateDomains ->
+                    statesLiveData.postValue(stateDomains.map {
+                        StateMapper(it).map()
+                    })
                     loadingViewLiveData.postValue(VisibilityStates.GONE.visibility)
                 }
         }
     }
 
-    fun getStatesLiveData(): LiveData<List<StateDomain>> = statesLiveData
+    fun getStatesLiveData(): LiveData<List<StatePresenation>> = statesLiveData
     fun getLoadingLiveData(): LiveData<Int> = loadingViewLiveData
 }
