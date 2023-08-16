@@ -81,13 +81,13 @@ class GroupFragment : Fragment(R.layout.fragment_dashboard) {
         var margin: Double? = null
 
         if (fab.id == binding.addGroupFab.id) {
-            margin = 1.25
+            margin = 2.5
             animationShow =
                 AnimationUtils.loadAnimation(requireContext(), R.anim.fab_add_group_show)
             animationHide =
                 AnimationUtils.loadAnimation(requireContext(), R.anim.fab_add_group_hide)
         } else if (fab.id == binding.addStateFab.id) {
-            margin = 2.5
+            margin = 1.25
             animationShow =
                 AnimationUtils.loadAnimation(requireContext(), R.anim.fab_add_state_show)
             animationHide =
