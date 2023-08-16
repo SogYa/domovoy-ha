@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sogya.domain.models.StateDomain
 import com.sogya.domain.usecases.databaseusecase.groups.GetAllGroupByOwnerUseCase
 import com.sogya.domain.usecases.databaseusecase.states.InsertStateUseCase
 import com.sogya.domain.usecases.sharedpreferences.GetStringPrefsUseCase
@@ -13,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import ru.sogya.projects.domovoy.models.StatePresenation
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +32,7 @@ class AddStateDialogVM @Inject constructor(
     }
 
     fun addStatesToDataBase(
-        states: HashSet<StateDomain>,
+        states: HashSet<StatePresenation>,
         listener: ((success:Boolean) -> Unit)? = null
     ) {
         if (groupId != null) {

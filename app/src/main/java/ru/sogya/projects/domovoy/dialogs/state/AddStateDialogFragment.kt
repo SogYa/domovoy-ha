@@ -16,9 +16,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.sogya.domain.models.StateDomain
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sogya.projects.domovoy.R
+import ru.sogya.projects.domovoy.models.StatePresenation
 import ru.sogya.projects.domovoy.screens.controll.state.StateAdapter
 
 
@@ -29,7 +29,7 @@ class AddStateDialogFragment(private val dialogFragmentListener: DialogFragmentL
     private var groupdDropDownList: MaterialAutoCompleteTextView? = null
 
     interface DialogFragmentListener {
-        fun getStateHasSet(): HashSet<StateDomain>
+        fun getStateHasSet(): HashSet<StatePresenation>
     }
 
     override fun onCreateView(
