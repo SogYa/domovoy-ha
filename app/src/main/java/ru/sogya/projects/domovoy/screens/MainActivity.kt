@@ -3,14 +3,18 @@ package ru.sogya.projects.domovoy.screens
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.window.OnBackInvokedDispatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.BuildCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.*
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sogya.projects.domovoy.R
 import ru.sogya.projects.domovoy.databinding.ActivityMainBinding
@@ -25,6 +29,7 @@ class MainActivity : AppCompatActivity(), LogOutDialogFragment.DialogFragmentLis
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
     private lateinit var vm: MainVM
+    private var actionBarTitle: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_DomovoyHA)
@@ -32,66 +37,66 @@ class MainActivity : AppCompatActivity(), LogOutDialogFragment.DialogFragmentLis
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayShowHomeEnabled(false)
         setupNavigation()
-        //Android 13 predictive back gesture
-        setupTiramisuBackPressed()
-
+        setupBackPressed()
         vm = ViewModelProvider(this)[MainVM::class.java]
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.authFragment, R.id.lockFragment,R.id.serversFragment -> {
-                    supportActionBar?.hide()
+                R.id.authFragment, R.id.lockFragment, R.id.serversFragment -> {
+                    supportActionBar?.show()
                     binding.bottomNav.visibility = GONE
+                    binding.actionBarTitle.text =
+                        resources.getString(R.string.default_action_bar_title)
                 }
-                R.id.stateAddingFragment->
+
+                R.id.stateAddingFragment ->
                     supportActionBar?.hide()
+
+                R.id.groupFragment, R.id.settingsFragment -> {
+                    supportActionBar?.show()
+                    if (actionBarTitle == null) {
+                        actionBarTitle = vm.getServerName()
+                    }
+                    binding.actionBarTitle.text = actionBarTitle
+                }
 
                 else -> {
                     supportActionBar?.show()
+                    binding.actionBarTitle.text = destination.label
                     binding.bottomNav.visibility = VISIBLE
                 }
             }
         }
     }
 
-    private fun setupTiramisuBackPressed() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+    private fun setupBackPressed() {
+        if (Build.VERSION.SDK_INT >= 33) {
             onBackInvokedDispatcher.registerOnBackInvokedCallback(
                 OnBackInvokedDispatcher.PRIORITY_DEFAULT
             ) {
-                for (i in 0 until supportFragmentManager.backStackEntryCount) {
-                    supportFragmentManager.popBackStack()
-                }
+                onBackPressedDispatcher.onBackPressed()
             }
         }
     }
 
     private fun setupNavigation() {
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayShowHomeEnabled(false)
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         navController = navHostFragment.navController
         binding.bottomNav.setupWithNavController(navController)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         vm.getNetworkStateLiveData().observe(this) {
             val dialogFragment = NetworkConnectionDialog()
             if (!it) {
                 dialogFragment.show(supportFragmentManager, dialogFragment.tag)
             }
         }
-    }
-
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        for (i in 0 until supportFragmentManager.backStackEntryCount) {
-            supportFragmentManager.popBackStack()
-        }
+        vm
     }
 
     override fun onSupportNavigateUp(): Boolean {

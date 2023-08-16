@@ -3,6 +3,7 @@ package ru.sogya.projects.domovoy.screens
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.sogya.domain.usecases.network.GetNetworkStateUseCase
+import com.sogya.domain.usecases.sharedpreferences.GetStringPrefsUseCase
 import com.sogya.domain.usecases.sharedpreferences.UpdatePrefsUseCase
 import com.sogya.domain.usecases.websockets.CloseUseCase
 import com.sogya.domain.utils.Constants
@@ -13,10 +14,14 @@ import javax.inject.Inject
 class MainVM @Inject constructor(
     private val closeWebSocketUseCase: CloseUseCase,
     private val updatePrefsUseCase: UpdatePrefsUseCase,
-    private val getNetworkStatesUseCase: GetNetworkStateUseCase
+    private val getNetworkStatesUseCase: GetNetworkStateUseCase,
+    private val getStringPrefsUseCase: GetStringPrefsUseCase
 ) : ViewModel() {
     fun getNetworkStateLiveData(): LiveData<Boolean> {
         return getNetworkStatesUseCase()
+    }
+    fun getServerName():String{
+        return getStringPrefsUseCase(Constants.SERVER_NAME)
     }
 
     fun logOut() {
