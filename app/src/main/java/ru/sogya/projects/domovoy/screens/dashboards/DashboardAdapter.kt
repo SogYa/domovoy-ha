@@ -31,7 +31,6 @@ class DashboardAdapter(
         private const val IS_OPEN = "open"
         private const val IS_CLOSED = "closed"
         private const val IS_UNAVAILABLE = "unavailable"
-        private const val UNAVAILABLE_COLOR = "#AAAAAA"
     }
 
     class SensorWeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -66,7 +65,6 @@ class DashboardAdapter(
 
     class CameraViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textViewName: TextView = itemView.findViewById(R.id.textCameraName)
-        val imageCamera: ImageView = itemView.findViewById(R.id.imageViewCamera)
     }
 
     class CoverViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -79,7 +77,6 @@ class DashboardAdapter(
     class BinarySensorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.textBinaryName)
         val stateTV: TextView = itemView.findViewById(R.id.textBinaryState)
-        val idTextView: TextView = itemView.findViewById(R.id.textBinaryId)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -190,7 +187,7 @@ class DashboardAdapter(
                         holder.iconView.setImageResource(R.drawable.ic_humidity)
                     }
                     else ->{
-                        holder.iconView.setImageResource(R.drawable.ic_thermometer)
+                        holder.iconView.setImageResource(R.drawable.ic_sensor_48)
                     }
                 }
                 holder.texViewLabel.text = stateDomain.attributes?.friendlyName
@@ -298,7 +295,6 @@ class DashboardAdapter(
             is BinarySensorViewHolder -> {
                 holder.nameTextView.text = stateDomain.attributes!!.friendlyName
                 holder.stateTV.text = stateDomain.state
-                holder.idTextView.text = stateDomain.lastChanged
             }
 
             is ViewHolder -> {
