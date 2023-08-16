@@ -5,5 +5,5 @@ import com.sogya.domain.repository.LocalDataBaseRepository
 class GetAllGroupByOwnerUseCase(
     private val repository: LocalDataBaseRepository
 ) {
-    fun invoke(ownerId: String) = repository.getAllGroupsByOwner(ownerId)
+    suspend operator fun invoke(ownerId: String) = repository.getAllGroupsByOwner(ownerId)
 }

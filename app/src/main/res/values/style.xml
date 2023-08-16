@@ -17,7 +17,12 @@
     </style>
     <style name="App.Custom.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
         <item name="colorPrimary">@color/main_blue</item>
+    </style>
 
+    <style name="App.Custom.AutoCompite" parent="Widget.Material3.AutoCompleteTextView.OutlinedBox">
+        <item name="simpleItemSelectedColor">@color/font_black</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="simpleItemSelectedRippleColor">@color/main_light_gray</item>
     </style>
 
 </resources>
