@@ -11,16 +11,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.sogya.domain.models.StateDomain
 import ru.sogya.projects.domovoy.R
+import ru.sogya.projects.domovoy.models.StatePresenation
 import java.util.Locale
 
 @Suppress("UNCHECKED_CAST")
 class StateAdapter : RecyclerView.Adapter<StateAdapter.ViewHolder>(), Filterable {
-    private var states = ArrayList<StateDomain>()
-    private val checkedSet = HashSet<StateDomain>()
-    private var searchStatesList = states
-    private val differ = AsyncListDiffer(this, DiffCallback())
+    private var currentStateList = arrayListOf<StatePresenation>()
+    private val checkedSet = HashSet<StatePresenation>()
+    private var searchStatesList = currentStateList
+    private val differ: AsyncListDiffer<StatePresenation> = AsyncListDiffer(this, DiffCallback())
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.textFriendlyName)
@@ -36,52 +36,54 @@ class StateAdapter : RecyclerView.Adapter<StateAdapter.ViewHolder>(), Filterable
     }
 
     override fun getItemCount(): Int {
-        return searchStatesList.size
+        return differ.currentList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val stateDomain: StateDomain = searchStatesList[position]
-        if (checkedSet.contains(stateDomain)) {
+        val statePresentation: StatePresenation = differ.currentList[position]
+        if (checkedSet.contains(statePresentation)) {
             holder.stateSelectedIcon.visibility = View.VISIBLE
         } else {
             holder.stateSelectedIcon.visibility = View.GONE
         }
-        holder.nameTextView.text = stateDomain.attributes!!.friendlyName
-        holder.idTextView.text = stateDomain.entityId
-        holder.stateCountTextView.text = position.toString()
+        val itemCounter = currentStateList.indexOf(statePresentation) + 1
+        holder.nameTextView.text = statePresentation.attributes!!.friendlyName
+        holder.idTextView.text = statePresentation.entityId
+        holder.stateCountTextView.text = itemCounter.toString()
         holder.itemView.setOnClickListener {
-            if (checkedSet.contains(stateDomain)) {
+            if (checkedSet.contains(statePresentation)) {
                 holder.stateSelectedIcon.visibility = View.GONE
-                checkedSet.remove(stateDomain)
+                checkedSet.remove(statePresentation)
             } else {
                 holder.stateSelectedIcon.visibility = View.VISIBLE
-                checkedSet.add(stateDomain)
+                checkedSet.add(statePresentation)
             }
         }
     }
 
-    fun sendCheckedSet(): HashSet<StateDomain> = checkedSet
+    fun sendCheckedSet(): HashSet<StatePresenation> = checkedSet
     fun clearCheckedSet() {
         checkedSet.clear()
     }
 
-    fun updateStatesList(statesArrayList: List<StateDomain>) {
-        states.clear()
-        notifyItemRemoved(1)
-        states.addAll(statesArrayList)
-        notifyItemRangeChanged(0, states.size)
+    fun updateStatesList(newStateList: List<StatePresenation>) {
+        currentStateList.clear()
+        notifyItemChanged(1)
+        currentStateList.addAll(newStateList)
+        notifyItemRangeChanged(0, currentStateList.size)
+        differ.submitList(newStateList)
     }
 
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
-                if (charSearch.isEmpty()) {
-                    searchStatesList = states
+                if (charSearch.isEmpty() || constraint == null) {
+                    searchStatesList = currentStateList
                     Log.d("EmptyList", searchStatesList.toString())
                 } else {
-                    val resultList = ArrayList<StateDomain>()
-                    for (row in searchStatesList) {
+                    val resultList = ArrayList<StatePresenation>()
+                    for (row in currentStateList) {
                         if (row.entityId.lowercase(Locale.ROOT)
                                 .contains(charSearch.lowercase(Locale.ROOT))
                         ) {
@@ -96,20 +98,26 @@ class StateAdapter : RecyclerView.Adapter<StateAdapter.ViewHolder>(), Filterable
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                searchStatesList = results?.values as ArrayList<StateDomain>
-                notifyItemRangeChanged(0, searchStatesList.size)
+                val newSearchList = results?.values as ArrayList<StatePresenation>
+                differ.submitList(newSearchList)
             }
         }
     }
 
-    private class DiffCallback : DiffUtil.ItemCallback<StateDomain>() {
-        override fun areItemsTheSame(oldItem: StateDomain, newItem: StateDomain): Boolean {
+
+    private class DiffCallback : DiffUtil.ItemCallback<StatePresenation>() {
+        override fun areItemsTheSame(
+            oldItem: StatePresenation,
+            newItem: StatePresenation
+        ): Boolean {
             return oldItem.entityId == newItem.entityId
         }
 
-        override fun areContentsTheSame(oldItem: StateDomain, newItem: StateDomain): Boolean {
+        override fun areContentsTheSame(
+            oldItem: StatePresenation,
+            newItem: StatePresenation
+        ): Boolean {
             return oldItem == newItem
         }
-
     }
 }
