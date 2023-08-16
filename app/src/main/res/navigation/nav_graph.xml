@@ -30,7 +30,7 @@
     <fragment
         android:id="@+id/startFragment"
         android:name="ru.sogya.projects.domovoy.screens.start.StartFragment"
-        android:label="StartFragment">
+        android:label="">
         <action
             android:id="@+id/action_startFragment_to_serversFragment"
             app:destination="@id/serversFragment" />
@@ -44,7 +44,7 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="ru.sogya.projects.domovoy.screens.settings.SettingsFragment"
-        android:label="Settings">
+        android:label="Настройки">
         <action
             android:id="@+id/action_settingsFragment_to_homeFragment"
             app:destination="@id/groupFragment" />
@@ -64,7 +64,7 @@
     <fragment
         android:id="@+id/appLockFragment"
         android:name="ru.sogya.projects.domovoy.screens.settings.applock.AppLockFragment"
-        android:label="Pin-code locker">
+        android:label="Пин-код">
         <action
             android:id="@+id/action_appLockFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
@@ -102,11 +102,11 @@
     <fragment
         android:id="@+id/contactsFragment"
         android:name="ru.sogya.projects.domovoy.screens.contacts.ContactsFragment"
-        android:label="ContactsFragment" />
+        android:label="Обратная связь" />
     <fragment
         android:id="@+id/aboutFragment"
         android:name="ru.sogya.projects.domovoy.screens.about.AboutFragment"
-        android:label="AboutFragment" />
+        android:label="О приложении" />
     <fragment
         android:id="@+id/stateAddingFragment"
         android:name="ru.sogya.projects.domovoy.screens.controll.state.StateAddingFragment"
@@ -114,5 +114,5 @@
     <fragment
         android:id="@+id/groupControllFragment"
         android:name="ru.sogya.projects.domovoy.screens.controll.group.GroupControlFragment"
-        android:label="GroupControllFragment" />
+        android:label="Настройка групп" />
 </navigation>
