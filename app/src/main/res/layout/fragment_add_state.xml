@@ -9,37 +9,44 @@
         android:id="@+id/states_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/searchbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxStrokeColor = "@color/font_black"
-            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="30dp"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-            app:startIconDrawable="@drawable/ic_search_24"
-            app:startIconTint="@color/font_black">
-
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/editTextSearch"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_search_24"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/font_black"
                 android:fontFamily="@font/montserrat_regular"
-                android:textSize="15sp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:hint="Поиск по id устройства"
                 android:textColor="@color/font_black"
                 android:textColorHint="@color/font_gray"
-                android:hint="Поиск по id устройства"
-                android:background="@color/white" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+                android:textSize="15sp"
+                android:autofillHints=""
+                android:inputType="text" />
+        </androidx.cardview.widget.CardView>
     </com.google.android.material.appbar.AppBarLayout>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loadingView"

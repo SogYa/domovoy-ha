@@ -35,10 +35,10 @@
         android:layout_margin="@dimen/fab_margin"
         android:backgroundTint="@color/white"
         android:contentDescription="@string/add_group_fab_desc"
-        android:text="Добавить"
+        android:text="Редактировать"
         android:textColor="@color/black"
-        app:icon="@drawable/add_icon"
-        app:iconTint="@color/black" />
+        app:icon="@drawable/ic_edit_48"
+        app:iconTint="@color/font_black" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/addGroupFab"
@@ -46,13 +46,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/white"
         android:contentDescription="@string/add_group_fab_desc"
-        android:src="@android:drawable/ic_menu_compass"
-        android:text="Группу"
+        android:text="Группы"
         android:textColor="@color/black"
         android:visibility="invisible"
-        app:backgroundTint="@color/white"
-        app:fabSize="mini" />
+        app:fabSize="mini"
+        app:icon="@drawable/ic_add_group_48"
+        app:iconTint="@color/font_black" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/addStateFab"
@@ -60,13 +61,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/white"
         android:contentDescription="@string/add_group_fab_desc"
-        android:src="@android:drawable/ic_menu_myplaces"
-        android:text="Устройство"
+        android:text="Устройства"
         android:textColor="@color/black"
         android:visibility="invisible"
-        app:backgroundTint="@color/white"
-        app:fabSize="mini" />
+        app:fabSize="mini"
+        app:icon="@drawable/ic_dashboard_48"
+        app:iconTint="@color/font_black" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loadingView"

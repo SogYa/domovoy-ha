@@ -20,12 +20,13 @@
 
     <TextView
         android:id="@+id/dashboard_hint"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/alata"
-        android:text="@string/dashboard_hint"
         android:layout_margin="30dp"
+        android:fontFamily="@font/monsterat"
+        android:text="@string/dashboard_hint"
         android:textAlignment="center"
+        android:textColor="@color/hint_gray"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
