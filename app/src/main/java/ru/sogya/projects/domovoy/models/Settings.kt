@@ -19,19 +19,13 @@ data class Settings(
             Settings(
                 APP_LOCKER,
                 "Пин-код",
-                "Добавьте пинкод для доступа к серверу ",
+                "Пин-код для доступа к серверу ",
                 R.id.action_settingsFragment_to_appLockFragment,
                 R.drawable.ic_baseline_lock_24
             ), Settings(
-                MAP,
-                "Карта",
-                "Интерактивная карта",
-                R.id.action_settingsFragment_to_mapFragment,
-                R.drawable.baseline_map_24
-            ), Settings(
                 CONTACTS,
-                "Обратная свзяь",
-                "Оставить пожелания по приложению",
+                "Обратная связь",
+                "Связь с разработчиком",
                 R.id.action_settingsFragment_to_contactsFragment,
                 R.drawable.baseline_people_alt_24
             ), Settings(
