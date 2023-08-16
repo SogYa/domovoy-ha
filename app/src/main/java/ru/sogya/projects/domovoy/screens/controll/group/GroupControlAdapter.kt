@@ -14,7 +14,6 @@ class GroupControlAdapter: RecyclerView.Adapter<GroupControlAdapter.ViewHolder>(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val groupLabel: TextView = itemView.findViewById(R.id.group_label)
-        val groupDesc: TextView = itemView.findViewById(R.id.group_desc)
         val groupCounter: TextView = itemView.findViewById(R.id.textViewCounter)
     }
 
@@ -29,10 +28,6 @@ class GroupControlAdapter: RecyclerView.Adapter<GroupControlAdapter.ViewHolder>(
         val currentPosition = position + 1
         holder.groupLabel.text = group.groupTag
         holder.groupCounter.text = currentPosition.toString()
-        val groupDesc = group.groupDesc
-        if (groupDesc != "") {
-            holder.groupDesc.text = groupDesc
-        }
         holder.itemView.setOnLongClickListener {
             onGroupClickListener?.onLongClick(group)
             return@setOnLongClickListener true

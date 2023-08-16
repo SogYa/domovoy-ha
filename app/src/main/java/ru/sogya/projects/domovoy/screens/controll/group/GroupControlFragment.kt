@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sogya.domain.models.StateGroupDomain
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sogya.projects.domovoy.databinding.FragmentGroupControllBinding
-import ru.sogya.projects.domovoy.dialogs.group.GroupBottomSheetFragment
+import ru.sogya.projects.domovoy.dialogs.group.GroupDialogFragment
 
 @AndroidEntryPoint
 class GroupControlFragment : Fragment() {
@@ -36,7 +36,7 @@ class GroupControlFragment : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
             recyclerView.itemAnimator = null
             addButton.setOnClickListener {
-                val dialog = GroupBottomSheetFragment()
+                val dialog = GroupDialogFragment()
                 dialog.show(parentFragmentManager, dialog.tag)
             }
             adapter!!.setOnClickListener(object : GroupControlAdapter.OnGroupClickListener {

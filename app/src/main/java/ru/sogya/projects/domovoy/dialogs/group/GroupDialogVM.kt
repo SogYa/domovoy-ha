@@ -17,9 +17,9 @@ class GroupDialogVM @Inject constructor(
     private val insertGroupUseCase: InsertGroupUseCase,
     private val getStringPrefsUseCase: GetStringPrefsUseCase,
 ) : ViewModel() {
-    fun createNewGroup(groupTag: String, groupDesc: String?, myCallBack: MyCallBack<Boolean>) {
+    fun createNewGroup(groupTag: String, myCallBack: MyCallBack<Boolean>) {
         val ownerId = getStringPrefsUseCase.invoke(Constants.SERVER_URI)
-        val groupState = StateGroupDomain(0, ownerId, groupTag, groupDesc.toString())
+        val groupState = StateGroupDomain(0, ownerId, groupTag, "")
 
         viewModelScope.launch {
             val job = launch { insertGroupUseCase.invoke(groupState) }

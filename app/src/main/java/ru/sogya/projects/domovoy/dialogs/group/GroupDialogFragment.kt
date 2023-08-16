@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.sogya.projects.domovoy.R
 
 @AndroidEntryPoint
-class GroupBottomSheetFragment : DialogFragment() {
+class GroupDialogFragment : DialogFragment() {
     private val vm: GroupDialogVM by viewModels()
 
     override fun onCreateView(
@@ -44,12 +44,10 @@ class GroupBottomSheetFragment : DialogFragment() {
         val positiveButton: Button = view.findViewById(R.id.positive)
         val negativeButton: Button = view.findViewById(R.id.negative)
         val groupTag: TextView = view.findViewById(R.id.groupTag)
-        val groupDesc: TextView = view.findViewById(R.id.groupDesc)
         positiveButton.setOnClickListener {
             val groupTagText = groupTag.text.toString()
-            val groupDescText = groupDesc.text.toString()
             if (groupTagText.isNotEmpty()) {
-                vm.createNewGroup(groupTagText, groupDescText, object : MyCallBack<Boolean> {
+                vm.createNewGroup(groupTagText, object : MyCallBack<Boolean> {
                     override fun data(t: Boolean) {
                         Toast.makeText(context, "Group added", Toast.LENGTH_SHORT).show()
                         dismiss()
