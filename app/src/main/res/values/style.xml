@@ -3,13 +3,7 @@
     <style name="Widget.BottomNavigationView.Firebase"
         parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/montserrat_regular</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="Widget.Custom.NavigationView" parent="Widget.Design.NavigationView">
-        <item name="itemTextColor">@color/font_black</item>
-        <item name="fontFamily">@font/montserrat_regular</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
