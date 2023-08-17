@@ -9,18 +9,19 @@ import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.sogya.projects.domovoy.R
-import ru.sogya.projects.domovoy.models.StatePresenation
+import ru.sogya.projects.domovoy.models.StatePresentation
+import ru.sogya.projects.domovoy.utils.DiffUtilCallback
 import java.util.Locale
 
 @Suppress("UNCHECKED_CAST")
 class StateAdapter : RecyclerView.Adapter<StateAdapter.ViewHolder>(), Filterable {
-    private var currentStateList = arrayListOf<StatePresenation>()
-    private val checkedSet = HashSet<StatePresenation>()
+    private var currentStateList = arrayListOf<StatePresentation>()
+    private val checkedSet = HashSet<StatePresentation>()
     private var searchStatesList = currentStateList
-    private val differ: AsyncListDiffer<StatePresenation> = AsyncListDiffer(this, DiffCallback())
+    private val differ: AsyncListDiffer<StatePresentation> =
+        AsyncListDiffer(this, DiffUtilCallback())
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.textFriendlyName)
@@ -40,7 +41,7 @@ class StateAdapter : RecyclerView.Adapter<StateAdapter.ViewHolder>(), Filterable
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val statePresentation: StatePresenation = differ.currentList[position]
+        val statePresentation: StatePresentation = differ.currentList[position]
         if (checkedSet.contains(statePresentation)) {
             holder.stateSelectedIcon.visibility = View.VISIBLE
         } else {
@@ -61,12 +62,12 @@ class StateAdapter : RecyclerView.Adapter<StateAdapter.ViewHolder>(), Filterable
         }
     }
 
-    fun sendCheckedSet(): HashSet<StatePresenation> = checkedSet
+    fun sendCheckedSet(): HashSet<StatePresentation> = checkedSet
     fun clearCheckedSet() {
         checkedSet.clear()
     }
 
-    fun updateStatesList(newStateList: List<StatePresenation>) {
+    fun updateStatesList(newStateList: List<StatePresentation>) {
         currentStateList.clear()
         notifyItemChanged(1)
         currentStateList.addAll(newStateList)
@@ -82,7 +83,7 @@ class StateAdapter : RecyclerView.Adapter<StateAdapter.ViewHolder>(), Filterable
                     searchStatesList = currentStateList
                     Log.d("EmptyList", searchStatesList.toString())
                 } else {
-                    val resultList = ArrayList<StatePresenation>()
+                    val resultList = ArrayList<StatePresentation>()
                     for (row in currentStateList) {
                         if (row.entityId.lowercase(Locale.ROOT)
                                 .contains(charSearch.lowercase(Locale.ROOT))
@@ -98,26 +99,9 @@ class StateAdapter : RecyclerView.Adapter<StateAdapter.ViewHolder>(), Filterable
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                val newSearchList = results?.values as ArrayList<StatePresenation>
+                val newSearchList = results?.values as ArrayList<StatePresentation>
                 differ.submitList(newSearchList)
             }
-        }
-    }
-
-
-    private class DiffCallback : DiffUtil.ItemCallback<StatePresenation>() {
-        override fun areItemsTheSame(
-            oldItem: StatePresenation,
-            newItem: StatePresenation
-        ): Boolean {
-            return oldItem.entityId == newItem.entityId
-        }
-
-        override fun areContentsTheSame(
-            oldItem: StatePresenation,
-            newItem: StatePresenation
-        ): Boolean {
-            return oldItem == newItem
         }
     }
 }
