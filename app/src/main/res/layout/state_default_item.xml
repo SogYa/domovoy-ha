@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp">
 
     <ImageView
         android:id="@+id/imageViewSelected"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginEnd="20dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +25,6 @@
         android:id="@+id/textStateCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         android:fontFamily="@font/montserrat_regular"
         android:text="1"
         android:textColor="@color/font_black"
@@ -37,9 +37,9 @@
 
     <LinearLayout
         android:id="@+id/linearLayout12"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="65dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:orientation="vertical"
@@ -52,7 +52,7 @@
 
         <TextView
             android:id="@+id/textFriendlyName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_regular"
             android:text="Влажэность"
@@ -61,7 +61,7 @@
 
         <TextView
             android:id="@+id/textId"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
             android:fontFamily="@font/montserrat_regular"

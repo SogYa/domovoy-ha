@@ -36,6 +36,12 @@
                 android:textColor="@color/font_black"
                 android:textSize="24sp" />
 
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dividerInsetEnd="16dp"
+                app:dividerInsetStart="16dp" />
+
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -43,6 +49,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
+                android:layout_marginBottom="15dp"
                 android:hint="Название"
                 android:textColorHint="@color/font_black"
                 app:boxStrokeColor="@color/font_black"
@@ -58,13 +65,18 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dividerInsetEnd="16dp"
+                app:dividerInsetStart="16dp" />
+
             <LinearLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="15dp"
-                android:background="@drawable/dialog_buttons_top"
                 android:gravity="end"
                 android:orientation="horizontal">
 
