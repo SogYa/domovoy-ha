@@ -3,7 +3,7 @@ package ru.sogya.projects.domovoy.workers
 import android.content.Context
 import android.util.Log
 import androidx.hilt.work.HiltWorker
-import androidx.work.Worker
+import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.google.gson.Gson
 import com.google.gson.JsonParser
@@ -35,7 +35,7 @@ class EventWorker @AssistedInject constructor(
     sharedPreferencesRepository: SharedPreferencesRepository,
     localDataBaseRepository: LocalDataBaseRepository
 ) :
-    Worker(context, workerParams), MessageListener {
+    CoroutineWorker(context, workerParams), MessageListener {
     private val iniUseCase = InitUseCase(webSocketRepository)
     private val reconnectUseCase = ReconnectUseCase(webSocketRepository)
     private val sendMessageUseCase = SendMessageUseCase(webSocketRepository)
@@ -46,7 +46,7 @@ class EventWorker @AssistedInject constructor(
     private var count = 0
     // private var notifyCount = 1
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
         val url = getStringPrefsUseCase.invoke(Constants.SERVER_URI)
         iniUseCase.invoke("$url/api/websocket", this)
 
