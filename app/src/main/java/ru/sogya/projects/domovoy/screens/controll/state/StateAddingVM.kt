@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import ru.sogya.projects.domovoy.models.StatePresenation
+import ru.sogya.projects.domovoy.models.StatePresentation
 import ru.sogya.projects.domovoy.models.mappers.StateMapper
 import ru.sogya.projects.domovoy.utils.VisibilityStates
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class StateAddingVM @Inject constructor(
     getStatesUseCase: GetStatesUseCase,
     getStringPrefsUseCase: GetStringPrefsUseCase,
 ) : ViewModel() {
-    private val statesLiveData = MutableLiveData<List<StatePresenation>>()
+    private val statesLiveData = MutableLiveData<List<StatePresentation>>()
     private val loadingViewLiveData = MutableLiveData<Int>()
 
 
@@ -43,6 +43,6 @@ class StateAddingVM @Inject constructor(
         }
     }
 
-    fun getStatesLiveData(): LiveData<List<StatePresenation>> = statesLiveData
+    fun getStatesLiveData(): LiveData<List<StatePresentation>> = statesLiveData
     fun getLoadingLiveData(): LiveData<Int> = loadingViewLiveData
 }

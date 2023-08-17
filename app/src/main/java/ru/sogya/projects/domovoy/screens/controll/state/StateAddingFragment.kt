@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.sogya.projects.domovoy.R
 import ru.sogya.projects.domovoy.databinding.FragmentAddStateBinding
 import ru.sogya.projects.domovoy.dialogs.state.AddStateDialogFragment
-import ru.sogya.projects.domovoy.models.StatePresenation
+import ru.sogya.projects.domovoy.models.StatePresentation
 
 @AndroidEntryPoint
 class StateAddingFragment : Fragment(R.layout.fragment_add_state) {
@@ -50,7 +50,7 @@ class StateAddingFragment : Fragment(R.layout.fragment_add_state) {
 
     private fun sendHashSetToDialog(): AddStateDialogFragment.DialogFragmentListener {
         return object : AddStateDialogFragment.DialogFragmentListener {
-            override fun getStateHasSet(): HashSet<StatePresenation> {
+            override fun getStateHasSet(): HashSet<StatePresentation> {
                 return adapter.sendCheckedSet()
             }
         }
