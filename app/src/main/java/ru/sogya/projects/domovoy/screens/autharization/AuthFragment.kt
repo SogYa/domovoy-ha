@@ -58,6 +58,7 @@ class AuthFragment : Fragment(R.layout.fragment_web_view) {
             }
         }
     }
+
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -84,11 +85,13 @@ class AuthFragment : Fragment(R.layout.fragment_web_view) {
                     super.onPageStarted(view, url, favicon)
                     binding.loadingConstraint.visibility = VISIBLE
                 }
+
                 override fun onPageFinished(view: WebView?, url: String?) {
                     super.onPageFinished(view, url)
                     binding.loadingConstraint.visibility = GONE
                     binding.webViewConstarint.visibility = VISIBLE
                 }
+
                 override fun shouldOverrideUrlLoading(
                     view: WebView?, request: WebResourceRequest?
                 ): Boolean {
