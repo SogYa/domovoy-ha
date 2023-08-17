@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.sogya.domain.models.StateGroupDomain
@@ -17,7 +16,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import ru.sogya.projects.domovoy.app.App
 import ru.sogya.projects.domovoy.workers.EventWorker
-import ru.sogya.projects.domovoy.workers.GetZonesWorker
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -36,12 +34,8 @@ class GroupVM @Inject constructor(
             flexTimeIntervalUnit = TimeUnit.MINUTES
         )
             .build()
-        val getZonesWorker = OneTimeWorkRequestBuilder<GetZonesWorker>()
-            .build()
         WorkManager.getInstance(App.getAppContext())
-            .enqueue(
-                listOf(updateStatesWork, getZonesWorker)
-            )
+            .enqueue(updateStatesWork)
 
         getAlGroupsByOwner()
     }
