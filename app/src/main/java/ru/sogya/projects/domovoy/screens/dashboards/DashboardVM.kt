@@ -3,11 +3,11 @@ package ru.sogya.projects.domovoy.screens.dashboards
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.sogya.data.models.requests.CallService
 import com.sogya.data.models.requests.CallServiceData
 import com.sogya.data.models.requests.CallServiceTarget
-import com.sogya.domain.models.StateDomain
 import com.sogya.domain.usecases.databaseusecase.states.DeleteStateUseCase
 import com.sogya.domain.usecases.databaseusecase.states.GetAllByGroupIdUseCase
 import com.sogya.domain.usecases.databaseusecase.states.GetAllStatesUseCase
@@ -17,6 +17,8 @@ import com.sogya.domain.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ru.sogya.projects.domovoy.models.StatePresentation
+import ru.sogya.projects.domovoy.models.mappers.ListStateMapper
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +29,7 @@ class DashboardVM @Inject constructor(
     private val getAllStates: GetAllStatesUseCase,
     private val deleteUseCase: DeleteStateUseCase,
 ) : ViewModel() {
-    private var itemsLiveData: LiveData<List<StateDomain>> = MutableLiveData()
+    private var itemsLiveData: LiveData<List<StatePresentation>> = MutableLiveData()
 
     companion object {
         private var ID_SERVICE_COUNT = 24
@@ -37,14 +39,18 @@ class DashboardVM @Inject constructor(
         itemsLiveData =
             if (groupId == Constants.DEFAULT_GROUP_ID) {
                 val ownerId = getStringPrefsUseCase.invoke(Constants.SERVER_URI)
-                getAllStates(ownerId)
+                getAllStates(ownerId).map {
+                    ListStateMapper(it).map()
+                }
             } else {
-                getAllByGroup(groupId)
+                getAllByGroup(groupId).map {
+                    ListStateMapper(it).map()
+                }
             }
     }
 
     fun getItemsLiveDat()
-            : LiveData<List<StateDomain>> = itemsLiveData
+            : LiveData<List<StatePresentation>> = itemsLiveData
 
     fun callSwitchService(stateId: String, switchState: String) {
         val serviceDomain = stateId.substringBefore(".")

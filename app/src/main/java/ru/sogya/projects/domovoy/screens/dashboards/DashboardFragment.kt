@@ -10,13 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.sogya.domain.models.StateDomain
 import com.sogya.domain.utils.Constants
 import com.sogya.domain.utils.Constants.STATE_ID
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sogya.projects.domovoy.R
 import ru.sogya.projects.domovoy.databinding.FragmentDashboardBinding
 import ru.sogya.projects.domovoy.dialogs.DeleteItemDialogFragment
+import ru.sogya.projects.domovoy.models.StatePresentation
 import ru.sogya.projects.domovoy.screens.states.player.MediaPlayerFragment
 import ru.sogya.projects.domovoy.screens.states.sensor.SensorFragment
 
@@ -40,12 +40,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard),
         arguments?.takeIf { it.containsKey(Constants.GROUP_ID) }?.apply {
             val groupId = getInt(Constants.GROUP_ID)
             vm.getGroupStates(groupId)
-//            bundle.putInt(Constants.GROUP_ID, groupId!!)
         }
         binding.statesRecyclerView.layoutManager = LinearLayoutManager(context)
         adapter = DashboardAdapter(this)
         binding.statesRecyclerView.adapter = adapter
-        binding.statesRecyclerView.itemAnimator = null
     }
 
     override fun onStart() {
@@ -61,15 +59,15 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard),
         }
     }
 
-    override fun onClick(stateDomain: StateDomain) {
+    override fun onClick(statePresentation: StatePresentation) {
         val dialogFragment: BottomSheetDialogFragment
         val arguments = Bundle()
-        arguments.putString(STATE_ID, stateDomain.entityId)
-        if (stateDomain.entityId.startsWith("sensor")) {
+        arguments.putString(STATE_ID, statePresentation.entityId)
+        if (statePresentation.entityId.startsWith("sensor")) {
             dialogFragment = SensorFragment()
             showDialog(dialogFragment, arguments)
 
-        } else if (stateDomain.entityId.startsWith("media_player")) {
+        } else if (statePresentation.entityId.startsWith("media_player")) {
             dialogFragment = MediaPlayerFragment()
             showDialog(dialogFragment, arguments)
         }
@@ -81,10 +79,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard),
         dialogFragment.show(childFragmentManager, dialogFragment.tag)
     }
 
-    override fun onLongClick(stateDomain: StateDomain) {
+    override fun onLongClick(statePresentation: StatePresentation) {
         val dialog = DeleteItemDialogFragment(this)
         val argument = Bundle()
-        argument.putString(STATE_ID, stateDomain.entityId)
+        argument.putString(STATE_ID, statePresentation.entityId)
         dialog.arguments = argument
         dialog.show(childFragmentManager, dialog.tag)
     }
