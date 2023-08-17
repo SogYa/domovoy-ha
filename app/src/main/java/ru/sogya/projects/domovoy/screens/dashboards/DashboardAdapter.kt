@@ -8,15 +8,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.SwitchCompat
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.slider.Slider
-import com.sogya.domain.models.StateDomain
 import ru.sogya.projects.domovoy.R
+import ru.sogya.projects.domovoy.app.App
+import ru.sogya.projects.domovoy.models.StatePresentation
+import ru.sogya.projects.domovoy.utils.DiffUtilCallback
 
 class DashboardAdapter(
     private val onStateClickListener: OnStateClickListener?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var states = ArrayList<StateDomain>()
+    private val differ: AsyncListDiffer<StatePresentation> =
+        AsyncListDiffer(this, DiffUtilCallback())
 
     companion object {
         private const val IS_SENSOR = 0
@@ -26,7 +31,6 @@ class DashboardAdapter(
         private const val IS_MEDIA_PLAYER = 4
         private const val IS_CAMERA = 5
         private const val IS_COVER = 6
-        private const val IS_BINARY_SENSOR = 7
 
         private const val IS_OPEN = "open"
         private const val IS_CLOSED = "closed"
@@ -64,7 +68,8 @@ class DashboardAdapter(
     }
 
     class CameraViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textViewName: TextView = itemView.findViewById(R.id.textCameraName)
+        val textViewName: TextView = itemView.findViewById(R.id.textFriendlyName)
+        val textViewId: TextView = itemView.findViewById(R.id.textId)
     }
 
     class CoverViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -74,11 +79,6 @@ class DashboardAdapter(
         val buttonDown: AppCompatButton = itemView.findViewById(R.id.buttonCoverDown)
     }
 
-    class BinarySensorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameTextView: TextView = itemView.findViewById(R.id.textBinaryName)
-        val stateTV: TextView = itemView.findViewById(R.id.textBinaryState)
-    }
-
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.textFriendlyName)
         val idTextView: TextView = itemView.findViewById(R.id.textId)
@@ -86,8 +86,8 @@ class DashboardAdapter(
 
 
     override fun getItemViewType(position: Int): Int {
-        val entityId = states[position].entityId
-        return if (entityId.startsWith("sensor.")) {
+        val entityId = differ.currentList[position].entityId
+        return if (entityId.startsWith("sensor.") || entityId.startsWith("binary_sensor.")) {
             IS_SENSOR
         } else if (entityId.startsWith("sun.")) {
             IS_SUN
@@ -101,14 +101,12 @@ class DashboardAdapter(
             IS_CAMERA
         } else if (entityId.startsWith("cover.")) {
             IS_COVER
-        } else if (entityId.startsWith("binary_sensor.")) {
-            IS_BINARY_SENSOR
         } else
             -1
     }
 
     override fun getItemCount(): Int {
-        return states.size
+        return differ.currentList.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -156,12 +154,6 @@ class DashboardAdapter(
                 return CoverViewHolder(view)
             }
 
-            IS_BINARY_SENSOR -> {
-                view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.state_binary_sensor, parent, false)
-                return BinarySensorViewHolder(view)
-            }
-
             else -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.state_default_item, parent, false)
@@ -171,47 +163,69 @@ class DashboardAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val stateDomain: StateDomain = states[position]
+        val statePresentation: StatePresentation = differ.currentList[position]
+        val statePicture = buildString {
+            append(statePresentation.ownerId)
+            append(statePresentation.attributes?.entityPicture)
+        }
         when (holder) {
             is SensorWeatherViewHolder -> {
-                holder.textViewState.text = buildString {
-                    append(stateDomain.state)
-                    append(stateDomain.attributes?.unitOfMeasurement)
-                }
-                when (stateDomain.attributes?.deviceClass) {
+                val stateIcon: Int
+                if (statePresentation.attributes?.unitOfMeasurement != null) {
+                    holder.textViewState.text = buildString {
+                        append(statePresentation.state)
+                        append(" ${statePresentation.attributes.unitOfMeasurement}")
+                    }
+                } else
+                    holder.textViewState.text = statePresentation.state
+                when (statePresentation.attributes?.deviceClass) {
                     "temperature" -> {
-                        holder.iconView.setImageResource(R.drawable.ic_thermometer)
+                        stateIcon = R.drawable.ic_thermometer
                     }
 
                     "humidity" -> {
-                        holder.iconView.setImageResource(R.drawable.ic_humidity)
+                        stateIcon = R.drawable.ic_humidity
                     }
-                    else ->{
-                        holder.iconView.setImageResource(R.drawable.ic_sensor_48)
+
+                    "data_size" -> {
+                        stateIcon = R.drawable.ic_memory_48
+                    }
+
+                    "motion" -> {
+                        stateIcon = R.drawable.ic_motion_sensor_48
+                    }
+
+                    else -> {
+                        stateIcon = R.drawable.ic_sensor_48
                     }
                 }
-                holder.texViewLabel.text = stateDomain.attributes?.friendlyName
+                holder.iconView.setImageResource(stateIcon)
+                holder.texViewLabel.text = statePresentation.attributes?.friendlyName
             }
 
             is SunViewHolder -> {
-                if (stateDomain.state == "above_horizon") {
+                if (statePresentation.state == "above_horizon") {
                     holder.iconView.setImageResource(R.drawable.ic_sun)
                     holder.textViewState.text = "Над горизонтом"
                 } else {
                     holder.iconView.setImageResource(R.drawable.ic_moon)
                     holder.textViewState.text = "За горизонтом"
                 }
-                holder.texViewLabel.text = stateDomain.attributes?.friendlyName
+                holder.texViewLabel.text = statePresentation.attributes?.friendlyName
             }
 
             is UserViewHolder -> {
-                holder.texViewLabel.text = stateDomain.attributes?.friendlyName
-                holder.iconView.setImageResource(R.drawable.ic_person)
+                holder.texViewLabel.text = statePresentation.attributes?.friendlyName
+                Glide.with(App.getAppContext()).load(statePicture)
+                    .placeholder(R.drawable.ic_person)
+                    .circleCrop()
+                    .into(holder.iconView)
+
             }
 
             is SwitchViewHolder -> {
-                holder.texViewLabel.text = stateDomain.attributes?.friendlyName
-                if (stateDomain.state == "on") {
+                holder.texViewLabel.text = statePresentation.attributes?.friendlyName
+                if (statePresentation.state == "on") {
                     holder.switchState.isChecked = true
                     holder.textViewState.text = "Включено"
                 } else {
@@ -223,32 +237,38 @@ class DashboardAdapter(
                         "turn_on"
                     } else
                         "turn_off"
-                    onStateClickListener?.onSwitchStateChanged(stateDomain.entityId, state)
+                    onStateClickListener?.onSwitchStateChanged(statePresentation.entityId, state)
                 }
             }
 
             is MediaPLayerViewHolder -> {
-                holder.textViewId.text = stateDomain.attributes?.friendlyName
+                holder.textViewId.text = statePresentation.attributes?.friendlyName
                 holder.buttonPowerOn.setOnClickListener {
-                    if (stateDomain.state == "off") {
-                        onStateClickListener?.onClickWithCommand(stateDomain.entityId, "turn_on")
+                    if (statePresentation.state == "off") {
+                        onStateClickListener?.onClickWithCommand(
+                            statePresentation.entityId,
+                            "turn_on"
+                        )
                     } else {
-                        onStateClickListener?.onClickWithCommand(stateDomain.entityId, "turn_off")
+                        onStateClickListener?.onClickWithCommand(
+                            statePresentation.entityId,
+                            "turn_off"
+                        )
                     }
                 }
-                holder.textView.text = stateDomain.state
+                holder.textView.text = statePresentation.state
 
             }
 
             is CameraViewHolder -> {
-                holder.textViewName.text = stateDomain.attributes?.friendlyName
-
+                holder.textViewName.text = statePresentation.attributes?.friendlyName
+                holder.textViewId.text = statePresentation.entityId
             }
 
             is CoverViewHolder -> {
                 holder.apply {
-                    nameTextView.text = stateDomain.attributes?.friendlyName
-                    coverSlider.value = stateDomain.attributes?.currentPosition?.toFloat()!!
+                    nameTextView.text = statePresentation.attributes?.friendlyName
+                    coverSlider.value = statePresentation.attributes?.currentPosition?.toFloat()!!
                     coverSlider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
                         override fun onStartTrackingTouch(slider: Slider) {
                             // Responds to when slider's touch event is being started
@@ -256,12 +276,12 @@ class DashboardAdapter(
 
                         override fun onStopTrackingTouch(slider: Slider) {
                             onStateClickListener?.onSliderChangeValue(
-                                stateDomain.entityId,
+                                statePresentation.entityId,
                                 slider.value.toInt()
                             )
                         }
                     })
-                    when (stateDomain.state) {
+                    when (statePresentation.state) {
                         IS_OPEN -> {
                             buttonDown.isEnabled = true
                             buttonUp.isEnabled = false
@@ -279,48 +299,40 @@ class DashboardAdapter(
                     }
                     buttonUp.setOnClickListener {
                         onStateClickListener?.onClickWithCommand(
-                            stateDomain.entityId,
+                            statePresentation.entityId,
                             "open_cover"
                         )
                     }
                     buttonDown.setOnClickListener {
                         onStateClickListener?.onClickWithCommand(
-                            stateDomain.entityId,
+                            statePresentation.entityId,
                             "close_cover"
                         )
                     }
                 }
             }
 
-            is BinarySensorViewHolder -> {
-                holder.nameTextView.text = stateDomain.attributes!!.friendlyName
-                holder.stateTV.text = stateDomain.state
-            }
-
             is ViewHolder -> {
-                holder.nameTextView.text = stateDomain.attributes!!.friendlyName
-                holder.idTextView.text = stateDomain.lastChanged
+                holder.nameTextView.text = statePresentation.attributes!!.friendlyName
+                holder.idTextView.text = statePresentation.lastChanged
             }
         }
         holder.itemView.setOnClickListener {
-            onStateClickListener?.onClick(stateDomain)
+            onStateClickListener?.onClick(statePresentation)
         }
         holder.itemView.setOnLongClickListener {
-            onStateClickListener?.onLongClick(stateDomain)
+            onStateClickListener?.onLongClick(statePresentation)
             return@setOnLongClickListener true
         }
     }
 
-    fun updateStatesList(statesArrayList: List<StateDomain>) {
-        this.states.clear()
-        notifyItemChanged(1)
-        this.states.addAll(statesArrayList)
-        notifyItemRangeChanged(0, states.size)
+    fun updateStatesList(statesArrayList: List<StatePresentation>) {
+        differ.submitList(statesArrayList)
     }
 
     interface OnStateClickListener {
-        fun onClick(stateDomain: StateDomain)
-        fun onLongClick(stateDomain: StateDomain)
+        fun onClick(statePresentation: StatePresentation)
+        fun onLongClick(statePresentation: StatePresentation)
         fun onSwitchStateChanged(stateId: String, switchState: String) {}
         fun onClickWithCommand(stateId: String, command: String) {}
         fun onSliderChangeValue(stateId: String, value: Int) {}
