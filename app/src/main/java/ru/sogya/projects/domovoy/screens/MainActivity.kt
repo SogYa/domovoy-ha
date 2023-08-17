@@ -42,15 +42,16 @@ class MainActivity : AppCompatActivity(), LogOutDialogFragment.DialogFragmentLis
         vm = ViewModelProvider(this)[MainVM::class.java]
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.authFragment, R.id.lockFragment, R.id.serversFragment -> {
+                 R.id.lockFragment, R.id.serversFragment -> {
                     supportActionBar?.show()
                     binding.bottomNav.visibility = GONE
                     binding.actionBarTitle.text =
                         resources.getString(R.string.default_action_bar_title)
                 }
 
-                R.id.stateAddingFragment ->
+                R.id.stateAddingFragment -> {
                     supportActionBar?.hide()
+                }
 
                 R.id.groupFragment, R.id.settingsFragment -> {
                     supportActionBar?.show()
@@ -58,12 +59,12 @@ class MainActivity : AppCompatActivity(), LogOutDialogFragment.DialogFragmentLis
                         actionBarTitle = vm.getServerName()
                     }
                     binding.actionBarTitle.text = actionBarTitle
+                    binding.bottomNav.visibility = VISIBLE
                 }
 
                 else -> {
                     supportActionBar?.show()
                     binding.actionBarTitle.text = destination.label
-                    binding.bottomNav.visibility = VISIBLE
                 }
             }
         }
