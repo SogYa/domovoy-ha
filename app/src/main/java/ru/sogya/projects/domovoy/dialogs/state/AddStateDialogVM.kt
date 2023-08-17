@@ -12,7 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import ru.sogya.projects.domovoy.models.StatePresenation
+import ru.sogya.projects.domovoy.models.StatePresentation
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +32,7 @@ class AddStateDialogVM @Inject constructor(
     }
 
     fun addStatesToDataBase(
-        states: HashSet<StatePresenation>,
+        states: HashSet<StatePresentation>,
         listener: ((success:Boolean) -> Unit)? = null
     ) {
         if (groupId != null) {
