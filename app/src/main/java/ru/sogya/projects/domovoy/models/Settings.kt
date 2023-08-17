@@ -13,7 +13,6 @@ data class Settings(
     companion object {
         private const val APP_LOCKER = 0
         const val LOG_OUT = 3
-        private const val MAP = 1
         private const val CONTACTS = 2
         val settingsList = listOf(
             Settings(
@@ -27,7 +26,7 @@ data class Settings(
                 "Обратная связь",
                 "Связь с разработчиком",
                 R.id.action_settingsFragment_to_contactsFragment,
-                R.drawable.baseline_people_alt_24
+                R.drawable.ic_baseline_contact_support_24
             ), Settings(
                 LOG_OUT,
                 "Выйти",
