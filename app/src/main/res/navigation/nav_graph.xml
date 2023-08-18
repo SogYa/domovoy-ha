@@ -55,9 +55,6 @@
             android:id="@+id/action_settingsFragment_to_serversFragment"
             app:destination="@id/serversFragment" />
         <action
-            android:id="@+id/action_settingsFragment_to_mapFragment"
-            app:destination="@id/mapFragment" />
-        <action
             android:id="@+id/action_settingsFragment_to_contactsFragment"
             app:destination="@id/contactsFragment" />
     </fragment>
@@ -83,7 +80,9 @@
         android:label="ServersFragment" >
         <action
             android:id="@+id/action_serversFragment_to_authFragment"
-            app:destination="@id/authFragment" />
+            app:destination="@id/authFragment"
+            app:enterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_serversFragment_to_lockFragment"
             app:destination="@id/lockFragment" />
@@ -95,10 +94,6 @@
         android:id="@+id/dashboardFragment"
         android:name="ru.sogya.projects.domovoy.screens.dashboards.DashboardFragment"
         android:label="DashboardFragment" />
-    <fragment
-        android:id="@+id/mapFragment"
-        android:name="ru.sogya.projects.domovoy.screens.map.MapFragment"
-        android:label="MapFragment" />
     <fragment
         android:id="@+id/contactsFragment"
         android:name="ru.sogya.projects.domovoy.screens.contacts.ContactsFragment"

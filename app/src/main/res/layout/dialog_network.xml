@@ -51,13 +51,14 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="@string/dialog_network_text"
-                android:textSize="18sp"
-                android:textColor="@color/font_black"/>
+                android:textAlignment="center"
+                android:textColor="@color/font_black"
+                android:textSize="18sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

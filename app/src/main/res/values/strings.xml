@@ -40,4 +40,5 @@
     <string name="dialog_positive_add">Добавить</string>
     <string name="dialog_add_group_label">Добавление устройств</string>
     <string name="default_action_bar_title">Домовой HA</string>
+    <string name="server_hint">Подключенных серверов пока нет</string>
 </resources>

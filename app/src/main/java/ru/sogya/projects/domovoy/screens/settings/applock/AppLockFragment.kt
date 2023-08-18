@@ -89,6 +89,11 @@ class AppLockFragment : Fragment(R.layout.fragment_applock) {
     }
 
     private fun changeLockEnterElementsVisibility(visible: Int) {
+        if (visible == View.VISIBLE){
+            binding.settingsDesc.text = "Включена"
+        }else{
+            binding.settingsDesc.text = "Выключена"
+        }
         binding.linearLayoutLock.visibility = visible
         binding.buttonSave.visibility = visible
     }

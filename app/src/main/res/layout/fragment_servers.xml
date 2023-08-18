@@ -48,11 +48,13 @@
 
     <TextView
         android:id="@+id/serverHint"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_margin="30dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_regular"
-        android:text="@string/dashboard_hint"
-        android:textSize="15sp"
+        android:text="@string/server_hint"
+        android:textSize="20sp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/serverList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
