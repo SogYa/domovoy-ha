@@ -16,7 +16,7 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="colorSurface">@color/main_light_gray</item>
         <item name="colorOnSurface">@color/font_black</item>
-        <item name="colorOnSurfaceVariant">@color/font_black</item>
+        <item name="colorOnSurfaceVariant">@color/font_gray</item>
         <item name="colorSurfaceVariant">@color/main_light_gray</item>
         <item name="colorSecondaryContainer">@color/background_blue</item>
     </style>
