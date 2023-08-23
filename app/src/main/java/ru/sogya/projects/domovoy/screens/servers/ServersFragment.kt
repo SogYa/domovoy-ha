@@ -19,6 +19,7 @@ import com.sogya.domain.utils.MyCallBack
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sogya.projects.domovoy.R
 import ru.sogya.projects.domovoy.databinding.FragmentServersBinding
+import ru.sogya.projects.domovoy.dialogs.AddServerDialogFragment
 import ru.sogya.projects.domovoy.dialogs.DeleteServerDialogFragment
 import ru.sogya.projects.domovoy.dialogs.SelectServerDialogFragment
 
@@ -47,7 +48,8 @@ class ServersFragment : Fragment(R.layout.fragment_servers), ServersAdapter.OnSe
         binding.serverList.adapter = adapter
         binding.serverList.itemAnimator = null
         binding.addServer.setOnClickListener {
-            findNavController().navigate(R.id.action_serversFragment_to_authFragment)
+            val dialog = AddServerDialogFragment(authDialogListener())
+            dialog.show(parentFragmentManager, dialog.tag)
         }
     }
 
@@ -96,6 +98,13 @@ class ServersFragment : Fragment(R.layout.fragment_servers), ServersAdapter.OnSe
                 TODO("Not yet implemented")
             }
         })
+
+    }
+
+    private fun authDialogListener() = object : AddServerDialogFragment.DialogFragmentListener {
+        override fun startAuth(bundle: Bundle) {
+            findNavController().navigate(R.id.action_serversFragment_to_authFragment, bundle)
+        }
 
     }
 
