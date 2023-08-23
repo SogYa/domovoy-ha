@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.textfield.TextInputEditText
 import com.sogya.domain.utils.MyCallBack
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sogya.projects.domovoy.R
@@ -42,8 +42,8 @@ class GroupDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val positiveButton: Button = view.findViewById(R.id.positive)
-        val negativeButton: Button = view.findViewById(R.id.negative)
-        val groupTag: TextView = view.findViewById(R.id.groupTag)
+        val negativeButton: Button = view.findViewById(R.id.negativeGroup)
+        val groupTag: TextInputEditText = view.findViewById(R.id.groupTag)
         positiveButton.setOnClickListener {
             val groupTagText = groupTag.text.toString()
             if (groupTagText.isNotEmpty()) {
@@ -55,9 +55,9 @@ class GroupDialogFragment : DialogFragment() {
                     override fun error() {}
                 })
             }
-            negativeButton.setOnClickListener {
-               dialog?.dismiss()
-            }
+        }
+        negativeButton.setOnClickListener {
+            dismiss()
         }
     }
 }
