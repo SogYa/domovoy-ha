@@ -42,14 +42,14 @@ class AuthorizationVM @Inject constructor(
 ) : ViewModel(), MessageListener {
 
     private lateinit var serverToken: String
-    private lateinit var serverUri: String
+    private var mServerUri: String = ""
     private lateinit var serverTag: String
     private val loadScreenLiveData = MutableLiveData<Int>()
     private val navigationLiveData = MutableLiveData<Boolean>()
 
 
     fun getToken(
-        serverName: String,
+        serverName:String,
         baseUri: String,
         authCode: String,
         myCallBack: MyCallBack<Boolean>
@@ -66,7 +66,7 @@ class AuthorizationVM @Inject constructor(
                     updatePrefsUseCase.invoke(Constants.SERVER_NAME, serverName)
                     serverToken = it.access_token
                     serverTag = serverName
-                    serverUri = baseUri
+                    mServerUri = baseUri
                     thread {
                         kotlin.run {
                             initUseCase.invoke(
@@ -120,7 +120,7 @@ class AuthorizationVM @Inject constructor(
             updatePrefsUseCase.invoke(Constants.AUTH_TOKEN, serverToken)
             insertServerUseCase.invoke(
                 serverStateDomain = ServerStateDomain(
-                    serverTag, serverUri, serverToken
+                    serverTag, mServerUri, serverToken
                 )
             )
             closeWebSocketUseCase.invoke()
@@ -131,7 +131,7 @@ class AuthorizationVM @Inject constructor(
 
     private fun invokeIntegration() {
         viewModelScope.launch {
-            sendAppIntegrationUseCase.invoke(serverUri, serverToken, getDeviceData())
+            sendAppIntegrationUseCase.invoke(mServerUri, serverToken, getDeviceData())
                 .flowOn(Dispatchers.IO)
                 .catch {
                     Log.d("IntegrationError", it.message.toString())
@@ -142,6 +142,7 @@ class AuthorizationVM @Inject constructor(
                 }
         }
     }
+
     fun getLoadingLiveData(): LiveData<Int> = loadScreenLiveData
     fun getNavigationLiveData(): LiveData<Boolean> = navigationLiveData
     fun closeWebSocket() {

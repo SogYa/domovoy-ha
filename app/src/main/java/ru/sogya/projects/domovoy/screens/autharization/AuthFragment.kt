@@ -27,8 +27,6 @@ import ru.sogya.projects.domovoy.databinding.FragmentWebViewBinding
 @AndroidEntryPoint
 class AuthFragment : Fragment(R.layout.fragment_web_view) {
     private lateinit var binding: FragmentWebViewBinding
-    private lateinit var serverUri: String
-    private lateinit var serverName: String
     private val vm: AuthorizationVM by viewModels()
 
     override fun onCreateView(
@@ -62,71 +60,61 @@ class AuthFragment : Fragment(R.layout.fragment_web_view) {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.buttonConnect.setOnClickListener {
-            serverUri = binding.editTextServerUri.text.toString()
-            serverName = binding.editTextServerName.text.toString()
-            if (serverUri.endsWith("/")) {
-                serverUri = serverUri.substring(0, serverUri.length - 1)
-                binding.editTextServerUri.setText(serverUri)
+        val serverUri = arguments?.getString(Constants.SERVER_URI).toString()
+        val serverName = arguments?.getString(Constants.SERVER_NAME).toString()
+        Log.d("ServerUriString", serverUri)
+        Toast.makeText(requireContext(), serverUri, Toast.LENGTH_SHORT).show()
+        val redirectUri =
+            "${serverUri.replace(" https ://", Constants.REDIRECT_URI)}/auth_callback"
+        binding.logInWebView.loadUrl(
+            "$serverUri/auth/authorize?" + "client_id=$serverUri" + "&redirect_uri=${redirectUri}"
+        )
+        binding.logInWebView.settings.javaScriptEnabled = true
+        binding.logInWebView.webViewClient = object : WebViewClient() {
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                binding.loadingConstraint.visibility = VISIBLE
             }
-            val redirectUri =
-                "${serverUri.replace(" https ://", Constants.REDIRECT_URI)}/auth_callback"
-            binding.logInWebView.settings.javaScriptEnabled = true
-            if (serverUri != "" && serverName != "") {
-                binding.loginConstraint.visibility = GONE
-                binding.logInWebView.loadUrl(
-                    "$serverUri/auth/authorize?" + "client_id=$serverUri" + "&redirect_uri=${redirectUri}"
-                )
-            } else {
-                Toast.makeText(context, "Fields are empty", Toast.LENGTH_SHORT).show()
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                binding.loadingConstraint.visibility = GONE
             }
-            binding.logInWebView.webViewClient = object : WebViewClient() {
-                override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                    super.onPageStarted(view, url, favicon)
-                    binding.loadingConstraint.visibility = VISIBLE
-                }
 
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    super.onPageFinished(view, url)
-                    binding.loadingConstraint.visibility = GONE
-                    binding.webViewConstarint.visibility = VISIBLE
-                }
+            override fun shouldOverrideUrlLoading(
+                view: WebView?, request: WebResourceRequest?
+            ): Boolean {
+                request?.let {
+                    if (request.url.toString().startsWith("${serverUri}/auth_callback")) {
+                        request.url.getQueryParameter("code")?.let {
+                            vm.getToken(
+                                serverName,
+                                serverUri,
+                                it,
+                                object : MyCallBack<Boolean> {
+                                    override fun data(t: Boolean) {
+                                        Toast.makeText(
+                                            context,
+                                            getString(R.string.auth_succes),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
 
-                override fun shouldOverrideUrlLoading(
-                    view: WebView?, request: WebResourceRequest?
-                ): Boolean {
-                    request?.let {
-                        if (request.url.toString().startsWith("${serverUri}/auth_callback")) {
-                            request.url.getQueryParameter("code")?.let {
-                                vm.getToken(
-                                    serverName,
-                                    serverUri,
-                                    it,
-                                    object : MyCallBack<Boolean> {
-                                        override fun data(t: Boolean) {
-                                            Toast.makeText(
-                                                context,
-                                                getString(R.string.auth_succes),
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
+                                    override fun error() {
+                                        Toast.makeText(
+                                            context,
+                                            getString(R.string.auth_failed),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                })
 
-                                        override fun error() {
-                                            Toast.makeText(
-                                                context,
-                                                getString(R.string.auth_failed),
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
-                                    })
-
-                            } ?: kotlin.run {
-                                Log.d("AUTHCODE", "Authorization code not received")
-                            }
+                        } ?: kotlin.run {
+                            Log.d("AUTHCODE", "Authorization code not received")
                         }
                     }
-                    return super.shouldOverrideUrlLoading(view, request)
                 }
+                return super.shouldOverrideUrlLoading(view, request)
             }
         }
     }
