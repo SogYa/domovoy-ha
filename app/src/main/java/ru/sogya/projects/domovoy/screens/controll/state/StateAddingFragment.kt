@@ -44,6 +44,7 @@ class StateAddingFragment : Fragment(R.layout.fragment_add_state) {
             if (adapter.sendCheckedSet().isNotEmpty()) {
                 val dialog = AddStateDialogFragment(sendHashSetToDialog())
                 dialog.show(parentFragmentManager, dialog.tag)
+                adapter.clearCheckedSet()
             }
         }
     }
