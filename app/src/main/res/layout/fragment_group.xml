@@ -16,6 +16,7 @@
             style="@style/Widget.Material3.TabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabTextAppearance="@style/TabItemTextAppearance"
             android:background="@color/main_light_gray"
             app:tabGravity="fill"
             app:tabMode="scrollable" />
