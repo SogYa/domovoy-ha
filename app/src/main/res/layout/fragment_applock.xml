@@ -140,6 +140,8 @@
         android:text="Сохранить"
         android:textColor="@color/font_black"
         android:textSize="15sp"
+        app:icon="@drawable/ic_save"
+        app:iconTint="@color/font_black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
