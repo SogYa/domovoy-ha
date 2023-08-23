@@ -92,7 +92,6 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
-                android:background="@drawable/dialog_buttons_top"
                 android:orientation="horizontal">
 
                 <Button
@@ -100,7 +99,6 @@
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/dialog_button_left_stroke"
                     android:fontFamily="@font/montserrat_medium"
                     android:text="@string/dialog_cancel"
                     android:textColor="@color/main_blue"
@@ -111,7 +109,6 @@
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/dialog_button_right"
                     android:fontFamily="@font/montserrat_medium"
                     android:text="@string/dialog_positive_add"
                     android:textColor="@color/main_blue"

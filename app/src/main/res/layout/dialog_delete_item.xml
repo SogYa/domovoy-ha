@@ -28,7 +28,7 @@
             <TextView
                 android:id="@+id/dialogTittle"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
@@ -59,7 +59,6 @@
                 android:layout_height="50dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="15dp"
-                android:background="@drawable/dialog_buttons_top"
                 android:orientation="horizontal">
 
                 <Button
@@ -67,7 +66,6 @@
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/dialog_button_right"
                     android:fontFamily="@font/montserrat_medium"
                     android:text="@string/dialog_positive_remove"
                     android:textColor="@color/main_blue"
@@ -78,7 +76,6 @@
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/dialog_button_left_stroke"
                     android:fontFamily="@font/montserrat_medium"
                     android:text="@string/dialog_cancel"
                     android:textColor="@color/main_blue"

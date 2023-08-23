@@ -7,6 +7,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:backgroundTint="@color/main_light_gray"
         app:cardCornerRadius="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,8 +60,6 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="15dp"
                 android:layout_weight="0"
-
-                android:background="@drawable/dialog_buttons_top"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -68,22 +68,20 @@
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/dialog_button_right"
                     android:fontFamily="@font/montserrat_medium"
                     android:text="Выйти"
                     android:textColor="@color/main_blue"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/negative"
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/dialog_button_left_stroke"
                     android:fontFamily="@font/montserrat_medium"
                     android:text="Отмена"
-                    android:textSize="18sp"
-                    android:textColor="@color/main_blue" />
+                    android:textColor="@color/main_blue"
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
