@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace 'com.sogya.data'
-    compileSdk 33
+    compileSdk 34
 
 
     defaultConfig {
