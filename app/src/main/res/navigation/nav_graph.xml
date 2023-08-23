@@ -79,16 +79,14 @@
         android:name="ru.sogya.projects.domovoy.screens.servers.ServersFragment"
         android:label="ServersFragment" >
         <action
-            android:id="@+id/action_serversFragment_to_authFragment"
-            app:destination="@id/authFragment"
-            app:enterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
-        <action
             android:id="@+id/action_serversFragment_to_lockFragment"
             app:destination="@id/lockFragment" />
         <action
             android:id="@+id/action_serversFragment_to_homeFragment"
             app:destination="@id/groupFragment" />
+        <action
+            android:id="@+id/action_serversFragment_to_authFragment"
+            app:destination="@id/authFragment" />
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
@@ -110,4 +108,8 @@
         android:id="@+id/groupControllFragment"
         android:name="ru.sogya.projects.domovoy.screens.controll.group.GroupControlFragment"
         android:label="Настройка групп" />
+    <dialog
+        android:id="@+id/addServerDialogFragment"
+        android:name="ru.sogya.projects.domovoy.dialogs.AddServerDialogFragment"
+        android:label="AddServerDialogFragment" />
 </navigation>
