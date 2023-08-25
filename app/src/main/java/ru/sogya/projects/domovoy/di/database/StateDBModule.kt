@@ -28,7 +28,7 @@ class StateDBModule {
 
     @Provides
     fun providesGetStateByIdLiveDataUseCase(localDataBaseRepository: LocalDataBaseRepository) =
-        GetStateByIdLiveDataUseCase(localDataBaseRepository)
+        GetStateByIdFlowUseCase(localDataBaseRepository)
 
     @Provides
     fun providesGetStateByIdUseCase(localDataBaseRepository: LocalDataBaseRepository) =

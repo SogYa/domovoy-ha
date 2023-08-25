@@ -12,6 +12,8 @@ import com.sogya.domain.usecases.sharedpreferences.UpdatePrefsUseCase
 import com.sogya.domain.utils.Constants
 import com.sogya.domain.utils.MyCallBack
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,13 +24,17 @@ class ServersVM @Inject constructor(
     private val getServerByIdUseCase: GetServerByIdUseCase,
     private val deleteServerUseCase: DeleteServerUseCase,
 ) : ViewModel() {
-    private var serverLiveData: LiveData<List<ServerStateDomain>> = MutableLiveData()
-
+    private var serverLiveData = MutableLiveData<List<ServerStateDomain>>()
 
     fun getServerLiveData(): LiveData<List<ServerStateDomain>> = serverLiveData
 
     init {
-        serverLiveData = getAllServersUseCase.invoke()
+        viewModelScope.launch {
+            getAllServersUseCase().flowOn(Dispatchers.IO).collect {
+                serverLiveData.postValue(it)
+            }
+        }
+
     }
 
     fun getServer(serverId: String, myCallBack: MyCallBack<Boolean>) {

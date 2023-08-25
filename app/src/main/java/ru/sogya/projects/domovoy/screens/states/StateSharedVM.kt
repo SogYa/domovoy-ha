@@ -4,25 +4,31 @@ package ru.sogya.projects.domovoy.screens.states
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sogya.data.models.requests.CallService
 import com.sogya.data.models.requests.CallServiceTarget
-import com.sogya.domain.models.StateDomain
-import com.sogya.domain.usecases.databaseusecase.states.GetStateByIdLiveDataUseCase
+import com.sogya.domain.usecases.databaseusecase.states.GetStateByIdFlowUseCase
 import com.sogya.domain.usecases.network.GetStateHistoryUseCase
 import com.sogya.domain.usecases.sharedpreferences.GetStringPrefsUseCase
 import com.sogya.domain.usecases.websockets.SendMessageUseCase
 import com.sogya.domain.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import ru.sogya.projects.domovoy.models.StatePresentation
+import ru.sogya.projects.domovoy.models.mappers.StateMapper
 import javax.inject.Inject
 
 @HiltViewModel
 class StateSharedVM @Inject constructor(
-    private val getStateByIdUseCase: GetStateByIdLiveDataUseCase,
+    private val getStateByIdUseCase: GetStateByIdFlowUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
     private val getStateHistoryUseCase: GetStateHistoryUseCase,
     private val getStringPrefsUseCase: GetStringPrefsUseCase,
 ) : ViewModel() {
-    private var stateLiveData: LiveData<StateDomain> = MutableLiveData()
+    private var stateLiveData = MutableLiveData<StatePresentation>()
     private val stateHistoryLiveData = MutableLiveData<List<Float>>()
 
     companion object {
@@ -30,7 +36,16 @@ class StateSharedVM @Inject constructor(
     }
 
     fun getState(stateId: String) {
-        stateLiveData = getStateByIdUseCase.invoke(stateId)
+        viewModelScope.launch {
+            getStateByIdUseCase(stateId)
+                .flowOn(Dispatchers.IO)
+                .map {
+                    StateMapper(it).map()
+                }
+                .collect {
+                    stateLiveData.postValue(it)
+                }
+        }
     }
 
     fun getStateHisotry() {
@@ -52,5 +67,5 @@ class StateSharedVM @Inject constructor(
         ID_SERVICE_COUNT++
     }
 
-    fun getStateLiveData(): LiveData<StateDomain> = stateLiveData
+    fun getStateLiveData(): LiveData<StatePresentation> = stateLiveData
 }

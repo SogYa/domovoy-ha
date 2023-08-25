@@ -1,14 +1,14 @@
 package com.sogya.data.database.daos
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.sogya.data.models.ServerState
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ServersDao {
 
     @Query("SELECT * FROM servers")
-    fun getAll(): LiveData<List<ServerState>>
+    fun getAll(): Flow<List<ServerState>>
 
     @Query("SELECT * FROM servers WHERE serverUri IN(:serverUri)")
     fun getById(serverUri: String): ServerState

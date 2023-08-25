@@ -1,21 +1,21 @@
 package ru.sogya.projects.domovoy.screens.dashboards
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.sogya.data.models.requests.CallService
 import com.sogya.data.models.requests.CallServiceData
 import com.sogya.data.models.requests.CallServiceTarget
 import com.sogya.domain.usecases.databaseusecase.states.DeleteStateUseCase
 import com.sogya.domain.usecases.databaseusecase.states.GetAllByGroupIdUseCase
-import com.sogya.domain.usecases.databaseusecase.states.GetAllStatesUseCase
-import com.sogya.domain.usecases.sharedpreferences.GetStringPrefsUseCase
 import com.sogya.domain.usecases.websockets.SendMessageUseCase
-import com.sogya.domain.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.sogya.projects.domovoy.models.StatePresentation
 import ru.sogya.projects.domovoy.models.mappers.ListStateMapper
@@ -23,30 +23,26 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardVM @Inject constructor(
-    private val getStringPrefsUseCase: GetStringPrefsUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
     private val getAllByGroup: GetAllByGroupIdUseCase,
-    private val getAllStates: GetAllStatesUseCase,
     private val deleteUseCase: DeleteStateUseCase,
 ) : ViewModel() {
-    private var itemsLiveData: LiveData<List<StatePresentation>> = MutableLiveData()
+    private var itemsLiveData = MutableLiveData<List<StatePresentation>>()
 
     companion object {
         private var ID_SERVICE_COUNT = 24
     }
 
     fun getGroupStates(groupId: Int) {
-        itemsLiveData =
-            if (groupId == Constants.DEFAULT_GROUP_ID) {
-                val ownerId = getStringPrefsUseCase.invoke(Constants.SERVER_URI)
-                getAllStates(ownerId).map {
-                    ListStateMapper(it).map()
-                }
-            } else {
-                getAllByGroup(groupId).map {
-                    ListStateMapper(it).map()
-                }
+        viewModelScope.launch {
+            getAllByGroup(groupId).flowOn(Dispatchers.IO).catch {
+                Log.d("Error", it.message.toString())
+            }.map {
+                ListStateMapper(it).map()
+            }.collect {
+                itemsLiveData.postValue(it)
             }
+        }
     }
 
     fun getItemsLiveDat()

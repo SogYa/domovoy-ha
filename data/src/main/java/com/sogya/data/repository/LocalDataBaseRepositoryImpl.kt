@@ -1,8 +1,6 @@
 package com.sogya.data.repository
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import androidx.room.Room
 import com.sogya.data.database.LocalDataBase
 import com.sogya.data.mappers.group.GroupDomainMapper
@@ -30,7 +28,7 @@ class LocalDataBaseRepositoryImpl(context: Context) : LocalDataBaseRepository {
         .build()
 
     override fun getAllStates(serverUri: String)
-            : LiveData<List<StateDomain>> {
+            : Flow<List<StateDomain>> {
         return db.stateDao()
             .getAllByServerId(serverUri)
             .map {
@@ -42,8 +40,8 @@ class LocalDataBaseRepositoryImpl(context: Context) : LocalDataBaseRepository {
         return db.stateDao().getState(entityId)
     }
 
-    override fun getStateByIdLiveData(entityId: String): LiveData<StateDomain> {
-        return db.stateDao().getStateLiveData(entityId).map {
+    override fun getStateByIdFlow(entityId: String): Flow<StateDomain> {
+        return db.stateDao().getStateFlow(entityId).map {
            it
         }
     }
@@ -87,7 +85,7 @@ class LocalDataBaseRepositoryImpl(context: Context) : LocalDataBaseRepository {
         return db.groupDao().deleteGroup(stateGroupId)
     }
 
-    override fun getAllServers(): LiveData<List<ServerStateDomain>> {
+    override fun getAllServers(): Flow<List<ServerStateDomain>> {
         return db.serverDao().getAll().map {
             ListOfServersDataMapper(it).toServerDomainList()
         }
@@ -109,13 +107,13 @@ class LocalDataBaseRepositoryImpl(context: Context) : LocalDataBaseRepository {
         db.serverDao().update(ServerDomainMapper(serverState).toServerData())
     }
 
-    override fun getAllByGroup(groupId: Int): LiveData<List<StateDomain>> {
+    override fun getAllByGroup(groupId: Int): Flow<List<StateDomain>> {
         return db.stateDao().getAllByGroup(groupId).map {
             ListOfStatesMapper(it).toDomainList()
         }
     }
 
-    override fun getAllZones(): LiveData<List<ZoneDomain>> {
+    override fun getAllZones(): Flow<List<ZoneDomain>> {
         return db.zoneDao().getAllZones().map {
             ListZoneMapper(it).toDomain()
         }

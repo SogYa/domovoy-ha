@@ -1,7 +1,6 @@
 package com.sogya.domain.repository
 
 
-import androidx.lifecycle.LiveData
 import com.sogya.domain.models.ServerStateDomain
 import com.sogya.domain.models.StateDomain
 import com.sogya.domain.models.StateGroupDomain
@@ -10,11 +9,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface LocalDataBaseRepository {
 
-    fun getAllStates(serverUri: String): LiveData<List<StateDomain>>
+    fun getAllStates(serverUri: String): Flow<List<StateDomain>>
 
     fun getStateById(entityId: String): StateDomain
 
-    fun getStateByIdLiveData(entityId: String): LiveData<StateDomain>
+    fun getStateByIdFlow(entityId: String): Flow<StateDomain>
 
     fun insertState(states: List<StateDomain>)
 
@@ -34,7 +33,7 @@ interface LocalDataBaseRepository {
 
     fun deleteGroup(stateGroupId: Int)
 
-    fun getAllServers(): LiveData<List<ServerStateDomain>>
+    fun getAllServers(): Flow<List<ServerStateDomain>>
 
     fun getServerById(serverUri: String): ServerStateDomain
 
@@ -44,8 +43,8 @@ interface LocalDataBaseRepository {
 
     fun updateServer(serverState: ServerStateDomain)
 
-    fun getAllByGroup(groupId: Int): LiveData<List<StateDomain>>
-    fun getAllZones(): LiveData<List<ZoneDomain>>
+    fun getAllByGroup(groupId: Int): Flow<List<StateDomain>>
+    fun getAllZones(): Flow<List<ZoneDomain>>
 
     fun insertZone(zoneDomain: ZoneDomain)
 
