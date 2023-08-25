@@ -5,5 +5,5 @@ import com.sogya.domain.repository.LocalDataBaseRepository
 class GetAllServersUseCase(
     private val repository: LocalDataBaseRepository
 ) {
-    fun invoke() = repository.getAllServers()
+    operator fun invoke() = repository.getAllServers()
 }
