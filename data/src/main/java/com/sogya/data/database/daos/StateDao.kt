@@ -1,20 +1,20 @@
 package com.sogya.data.database.daos
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.sogya.data.models.StateData
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StateDao {
 
     @Query("SELECT * FROM states WHERE ownerId IN(:serverUri)")
-    fun getAllByServerId(serverUri: String): LiveData<List<StateData>>
+    fun getAllByServerId(serverUri: String): Flow<List<StateData>>
 
     @Query("SELECT * FROM states WHERE entityId IN(:entityId)")
     fun getState(entityId: String): StateData
 
     @Query("SELECT * FROM states WHERE entityId IN(:entityId)")
-    fun getStateLiveData(entityId: String): LiveData<StateData>
+    fun getStateFlow(entityId: String): Flow<StateData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(stateData: List<StateData>)
@@ -38,5 +38,5 @@ interface StateDao {
     fun deleteGroupIdFromStets(stateGroupId: Int)
 
     @Query("SELECT * FROM states WHERE groupId IN(:groupId) ")
-    fun getAllByGroup(groupId: Int): LiveData<List<StateData>>
+    fun getAllByGroup(groupId: Int): Flow<List<StateData>>
 }

@@ -65,7 +65,7 @@ class MediaPlayerFragment : BottomSheetDialogFragment(R.layout.fragment_state_pl
                     else -> buttonMute.setImageResource(R.drawable.baseline_volume_mute_24)
                 }
                 durationProgressBar.max = it.attributes?.mediaDuration!!.toInt()
-                durationProgressBar.progress = it.attributes?.mediaPosition!!.toInt()
+                durationProgressBar.progress = it.attributes.mediaPosition!!.toInt()
                 progressBarVolume.progress = (volume!! * 100).toInt()
                 progressBarVolume.max = 100
             }
